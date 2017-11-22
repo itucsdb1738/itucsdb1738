@@ -68,7 +68,7 @@ def initialize_database():
                                            secret_answer VARCHAR(255) NOT NULL,
                                            customer_id INTEGER NOT NULL,
                                            PRIMARY KEY (id),
-                                           FOREIGN KEY (customer_id) REFERENCES CUSTOMER(id)
+                                           FOREIGN KEY (customer_id) REFERENCES CUSTOMER(id) ON DELETE CASCADE ON UPDATE CASCADE
                                           )"""
         cursor.execute(query)
 
@@ -78,7 +78,7 @@ def initialize_database():
                                            description VARCHAR(255) NOT NULL,
                                            contract_id INTEGER NOT NULL,
                                            PRIMARY KEY (id),
-                                           FOREIGN KEY (contract_id) REFERENCES CONTRACT(id)
+                                           FOREIGN KEY (contract_id) REFERENCES CONTRACT(id) ON DELETE CASCADE ON UPDATE CASCADE
                                           )"""
         cursor.execute(query)
 
@@ -100,7 +100,7 @@ def initialize_database():
                                            contract_id INTEGER NOT NULL,
                                            CHECK((remaining_data >= 0) AND (remaining_voice >= 0) AND (remaining_sms >= 0)),
                                            PRIMARY KEY (id),
-                                           FOREIGN KEY (contract_id) REFERENCES CONTRACT(id)
+                                           FOREIGN KEY (contract_id) REFERENCES CONTRACT(id) ON DELETE CASCADE ON UPDATE CASCADE
                                           )"""
         cursor.execute(query)
 
@@ -113,17 +113,17 @@ def initialize_database():
                                           balance_id INTEGER NOT NULL,
                                           tariff_id INTEGER NOT NULL,
                                           PRIMARY KEY (id),
-                                          FOREIGN KEY (contract_id) REFERENCES CONTRACT(id),
-                                          FOREIGN KEY (balance_id) REFERENCES BALANCE(id),
-                                          FOREIGN KEY (tariff_id) REFERENCES TARIFF(id)
+                                          FOREIGN KEY (contract_id) REFERENCES CONTRACT(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                                          FOREIGN KEY (balance_id) REFERENCES BALANCE(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                                          FOREIGN KEY (tariff_id) REFERENCES TARIFF(id) ON DELETE CASCADE ON UPDATE CASCADE
                                          )"""
         cursor.execute(query)
 
         query = """CREATE TABLE CAMPAIGN_MSISDN (
                                                  msisdn_id INTEGER NOT NULL,
                                                  campaign_id INTEGER NOT NULL,
-                                                 FOREIGN KEY (msisdn_id) REFERENCES MSISDN(id),
-                                                 FOREIGN KEY (campaign_id) REFERENCES CAMPAIGN(id)
+                                                 FOREIGN KEY (msisdn_id) REFERENCES MSISDN(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                                                 FOREIGN KEY (campaign_id) REFERENCES CAMPAIGN(id) ON DELETE CASCADE ON UPDATE CASCADE
                                                  )"""
         cursor.execute(query)
 
@@ -132,7 +132,7 @@ def initialize_database():
                                          amount INTEGER NOT NULL,
                                          customer_id INTEGER NOT NULL,
                                          PRIMARY KEY (id),
-                                         FOREIGN KEY (customer_id) REFERENCES CUSTOMER(id)
+                                         FOREIGN KEY (customer_id) REFERENCES CUSTOMER(id) ON DELETE CASCADE ON UPDATE CASCADE
                                         )"""
         cursor.execute(query)
 
@@ -287,7 +287,8 @@ def initialize_database():
                     ALTER TABLE BALANCE
                         ADD CONSTRAINT fk_balance_msisdn_id
                         FOREIGN KEY (msisdn_id)
-                        REFERENCES MSISDN(id)"""
+                        REFERENCES MSISDN(id)
+                        ON DELETE CASCADE ON UPDATE CASCADE"""
         cursor.execute(query)
 
 
