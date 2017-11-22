@@ -23,10 +23,28 @@ def get_elephantsql_dsn(vcap_services):
     return dsn
 
 
-@app.route('/')
-def home_page():
-    now = datetime.datetime.now()
-    return render_template('home.html', current_time=now.ctime())
+@app.route('/', methods=['GET', 'POST'])
+def index_page():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT * FROM TARIFF"""
+        cursor.execute(query)
+        tariffs = cursor.fetchall()
+    return render_template('index.html', tariff_list=tariffs)
+
+
+@app.route('/elements')
+def elements_page():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT * FROM TARIFF"""
+        cursor.execute(query)
+        tariffs = cursor.fetchall()
+
+        query = """SELECT * FROM CAMPAIGN"""
+        cursor.execute(query)
+        campaigns = cursor.fetchall()
+    return render_template('elements.html', tariff_list=tariffs, campaign_list=campaigns)
 
 
 @app.route('/initdb')
@@ -139,19 +157,19 @@ def initialize_database():
 
         ### I insert some data to the TARIFF table.
         query = """INSERT INTO TARIFF(name, description, price, data, voice, sms)
-                               VALUES('GENC TARIFE', 'Genclere ozel tarife. Her yone 500 dk konusma, 1000 sms ustelik 2 gb internet aylik sadece 20 TL', 20, 2048, 500, 1000);
+                               VALUES('STUDENT PACK', 'Genclere ozel tarife. Her yone 500 dk konusma, 1000 sms ustelik 2 gb internet aylik sadece 20 TL', 20, 2048, 500, 1000);
 
 
                    INSERT INTO TARIFF(name, description, price, data, voice, sms)
-                                VALUES('SINIRSIZ TARIFE', 'Bana hicbir sey yetmiyor diyenlere ozel tarife. Her yone 2000 dk konusma, 5000 sms ve 16 gb internet aylik 50 TL', 50, 16384, 2000, 5000);
+                                VALUES('BUSINESS PACK', 'Bana hicbir sey yetmiyor diyenlere ozel tarife. Her yone 2000 dk konusma, 5000 sms ve 16 gb internet aylik 50 TL', 50, 16384, 2000, 5000);
 
 
                    INSERT INTO TARIFF(name, description, price, data, voice, sms)
-                                VALUES('HESAPLI TARIFE', 'Herkes kesime hitap eden hesapli tarife. Her yone 250 dk konusma, 500 sms ve 1 gb internet sadece aylik 15 TL', 15, 1024, 250, 500);
+                                VALUES('ECONOMY PACK', 'Herkes kesime hitap eden hesapli tarife. Her yone 250 dk konusma, 500 sms ve 1 gb internet sadece aylik 15 TL', 15, 1024, 250, 500);
 
 
                    INSERT INTO TARIFF(name, description, price, data, voice, sms)
-                                VALUES('KONUSTURAN TARIFE', 'Ben sadece konusma paketi istiyorum diyorsaniz bu tarife tam size gore. Her yone 2500 dk konusma ve 1 gb internet aylik 20 TL', 20, 1024, 2500, 0)"""
+                                VALUES('USER PACK', 'Ben sadece konusma paketi istiyorum diyorsaniz bu tarife tam size gore. Her yone 2500 dk konusma ve 1 gb internet aylik 20 TL', 20, 1024, 2500, 0)"""
         cursor.execute(query)
 
         ### I insert some data to the CUSTOMER table.
@@ -184,10 +202,13 @@ def initialize_database():
 
         ### I insert some data to the CAMPAIGN table.
         query = """ INSERT INTO CAMPAIGN(name, description, rule)
-                        VALUES('YENI MUSTERILERE OZEL', 'Yeni kayit yaptiran kullanicilarimiza ozel 3 aylik her yone 1000 dk, 2000 sms ve 4 gb internet.', 'Bu kampanyadan faydalanabilmek icin ilk kez kayit yapiyor olmaniz gerekmektedir.');
+                    VALUES('FOR NEWS PACK', 'This campaign for the new customers. 1000 MIN, 2000 SMS and 4 GB internet.', 'To use this campaign, you should be new customer.');
 
                     INSERT INTO CAMPAIGN(name, description, rule)
-                        VALUES('AVANTAJ BIZDE', 'Baska bir operatorden firmamiza gecis yapan kullanicilara ozel kampanya. Her yone 2000 dk, 2500 sms, 6 gb internet.', 'Bu kampanyadan sadece baska bir operatorden gecis yapan kullanicilar faydalanabilir.')"""
+                    VALUES('ADVANTAGE PACK', 'This campaign for the customers who transfer CS-CELL from another one. 2000 MIN, 5000 SMS, 6 GB internet.', 'To use this campaign, you should be transferred to CS-CELL from another company.');
+
+                    INSERT INTO CAMPAIGN(name, description, rule)
+                    VALUES('COUPLE PACK', 'This campaign for the customers who are married. 750 MIN, 1500 SMS, 6 GB internet.', 'To use this campaign, you should be married.')"""
         cursor.execute(query)
 
         ### I insert some data to the ADDRESS table.
@@ -293,7 +314,7 @@ def initialize_database():
 
 
         connection.commit()
-    return redirect(url_for('home_page'))
+    return redirect(url_for('index_page'))
 
 
 if __name__ == '__main__':
