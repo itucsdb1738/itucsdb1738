@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>CS-CELL</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome-4.5.0/css/font-awesome.min.css') }}">                
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">                                     
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/templatemo-style.css') }} ">                                  
+</head>
+
+<body class="tm-bg-img-content">
+
+    <div class="tm-bg-img-header">
+        <div class="container-fluid">
+            
+            <div id="top" class="tm-header-container">
+                
+                <!-- 1. Site Header -->
+                <div class="row tm-site-header">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-xs-center">
+
+                        <h1 class="tm-site-title">Welcome to CS-CELL</h1>
+                      <p class="tm-site-description" style="color:#FBFBEF;"><b>Turkey's Smallest GSM Operator</b></p>  
+                    
+                    </div>
+                </div>
+
+                <!-- 2. Navigation -->
+                <div class="row tm-navbar-row tm-navbar-row-absolute">
+                    <div class="tm-navbar-container">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+
+                            <nav class="navbar navbar-full">
+                                    
+                                <div class="text-xs-center tm-navbar-rounded" id="tmNavbar">                            
+
+                                    <ul class="nav navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#top">Home</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#tm-section-1">About</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#tm-section-3">Tariffs</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link external" href="{{ url_for('elements_page') }}">Campaigns</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Sign Up</a>
+                                        </li>
+                                        
+                                    </ul>
+
+                                </div>
+                              
+                            </nav>
+                        </div> 
+                    </div>                         
+                </div>   
+
+            </div> 
+            
+            <!-- 3. About -->
+            <div class="row" id="tm-section-1">
+                
+                <div class="container">
+                    <section class="tm-2-col-img-text">
+                    
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 tm-2-col-img">                                
+                            <i class="fa fa-5x fa-map-o"></i>
+                            <i class="fa fa-5x fa-rocket"></i>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 tm-2-col-text">
+                            <h2 class="tm-2-col-text-title">Less Pay, More Talk</h2>
+                            <p class="tm-2-col-text-description">
+                                 We offer best campaigns in Turkey  
+ 								 <br>You will less pay but more talk
+                            </p>
+                        </div>
+                        
+                    </section>
+
+                    <section class="tm-2-col-img-text" id="tm-section-2">
+                    
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 tm-2-col-text">
+                            <h2 class="tm-2-col-text-title">Over +5 Customers</h2>
+                            <p class="tm-2-col-text-description">
+                                We are growing faster  
+                                <br>Choose us to be happy
+                            </p>
+                        </div>
+                        
+                    </section>
+                </div>                
+
+            </div> 
+
+        </div>                
+    </div> 
+        
+    <div class="container-fluid">
+        
+        <!-- Plan -->
+        <div class="row tm-section" id="tm-section-3">
+            
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-xs-center">
+                <h2 class="tm-section-title">Select Your Tariff</h2>
+                <p class="tm-section-subtitle">
+                     We have different tariffs and campaigns
+                     <br>We appeal to everybody: Students, Business, Economic Pack...                  
+                </p>    
+            </div>
+                    
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    
+                <div class="tm-plan-boxes-container">
+                    
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-table-col">
+                            
+                        <table class="tm-table-full-width">
+                            <thead>
+                                <tr class="tm-bg-green-1">
+                                    <th class="tm-plan-table-header">{{ tariff_list[0][1] }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="tm-bg-green-2"><td class="tm-plan-table-cell">{{ tariff_list[0][4] }} MB</td></tr>
+                                <tr class="tm-bg-green-3"><td class="tm-plan-table-cell">{{ tariff_list[0][5] }} MIN</td></tr>
+                                <tr class="tm-bg-green-1"><td class="tm-plan-table-cell">{{ tariff_list[0][6] }} SMS</td></tr>
+                                <tr class="tm-bg-green-2"><td class="tm-plan-table-cell">{{ tariff_list[0][3] }} ₺</td></tr>
+                                <tr class="tm-bg-green-3">
+                                    <td class="tm-plan-table-cell tm-plan-table-cell-pad-small text-xs-center">
+                                        <a href="#" class="tm-bg-green-1 tm-btn-rounded tm-btn-green">Buy</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>  
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-table-col">
+                        
+                        <table class="tm-table-full-width">
+                            <thead>
+                                <tr class="tm-bg-blue-1">
+                                    <th class="tm-plan-table-header">{{ tariff_list[1][1] }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="tm-bg-blue-2"><td class="tm-plan-table-cell">{{ tariff_list[1][4] }} MB</td></tr>
+                                <tr class="tm-bg-blue-3"><td class="tm-plan-table-cell">{{ tariff_list[1][5] }} MIN</td></tr>
+                                <tr class="tm-bg-blue-1"><td class="tm-plan-table-cell">{{ tariff_list[1][6] }} SMS</td></tr>
+                                <tr class="tm-bg-blue-2"><td class="tm-plan-table-cell">{{ tariff_list[1][3] }} ₺</td></tr>
+                                <tr class="tm-bg-blue-3">
+                                    <td class="tm-plan-table-cell tm-plan-table-cell-pad-small text-xs-center">
+                                        <a href="#" class="tm-bg-blue-1 tm-btn-rounded tm-btn-blue">Buy</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>  
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-table-col">
+
+                        <table class="tm-table-full-width">
+                            <thead>
+                                <tr class="tm-bg-gold-1">
+                                    <th class="tm-plan-table-header">{{ tariff_list[2][1] }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="tm-bg-gold-2"><td class="tm-plan-table-cell">{{ tariff_list[2][4] }} MB</td></tr>
+                                <tr class="tm-bg-gold-3"><td class="tm-plan-table-cell">{{ tariff_list[2][5] }} MIN</td></tr>
+                                <tr class="tm-bg-gold-1"><td class="tm-plan-table-cell">{{ tariff_list[2][6] }} SMS</td></tr>
+                                <tr class="tm-bg-gold-2"><td class="tm-plan-table-cell">{{ tariff_list[2][3] }} ₺</td></tr>
+                                <tr class="tm-bg-gold-3">
+                                    <td class="tm-plan-table-cell tm-plan-table-cell-pad-small text-xs-center">
+                                        <a href="#" class="tm-bg-gold-1 tm-btn-rounded tm-btn-gold">Buy</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>  
+
+                    </div>
+                </div> 
+            </div> 
+        </div> 
+    </div>         
+    
+    <div class="tm-bg-img-header tm-section-contact-form">
+        <div class="container-fluid">
+            <div class="row tm-footer">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-xs-center">
+                    
+                    <div class="tm-social-icons-container">
+                        <a href="https://github.com/yenicead" class="tm-social-icon-link-brown"><i class="fa fa-github tm-social-icon"></i></a>
+                        <a href="https://tr.linkedin.com/in/yenicead" class="tm-social-icon-link-brown"><i class="fa fa-linkedin tm-social-icon"></i></a>
+                    </div>
+
+                </div>
+
+                <footer class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-xs-center">
+                    <p class="tm-copyright-text">Copyright &copy; 2017 CS-CELL</p>
+                </footer>
+
+            </div>                
+        </div>
+    </div> 
+        
+    <!-- load JS files -->
+    <script src="{{ url_for('static', filename='js/jquery-1.11.3.min.js') }}"></script>            
+    <script src=" {{ url_for('static', filename='js/jquery.singlePageNav.min.js') }}"></script>     
+
+    <script>
+
+        function prepareMenuForDesktop() {
+
+            var navbarHeight = 0;
+            
+            // For screens greater than 767
+            if($(window).width() > 767) {
+
+                // target at which the menu bar changes to sticky
+                var target = $("#tm-section-1").offset().top - 100;
+
+                // window scroll
+                $(window).scroll(function(){
+
+                    if($(this).scrollTop() > target) {                            
+                        $(".tm-navbar-row").addClass("sticky");                            
+                    }
+                    else {
+                        $(".tm-navbar-row").removeClass("sticky");
+                    }     
+
+                }); 
+
+                navbarHeight = 56;
+            }
+
+            // Single Page Nav
+            $('#tmNavbar').singlePageNav({
+               'currentClass' : "active",
+                offset : navbarHeight,
+                'filter': ':not(.external)'
+            });  
+        }  
+   
+        $(document).ready(function(){                 
+
+            prepareMenuForDesktop();
+
+            // On window resize, prepare menu
+            $(window).resize(function(){
+                prepareMenuForDesktop();                 
+                                  
+            });       
+        });
+
+    </script>             
+
+</body>
+</html>
