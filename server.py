@@ -30,21 +30,11 @@ def index_page():
         query = """SELECT * FROM TARIFF"""
         cursor.execute(query)
         tariffs = cursor.fetchall()
-    return render_template('index.html', tariff_list=tariffs)
-
-
-@app.route('/elements')
-def elements_page():
-    with dbapi2.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-        query = """SELECT * FROM TARIFF"""
-        cursor.execute(query)
-        tariffs = cursor.fetchall()
 
         query = """SELECT * FROM CAMPAIGN"""
         cursor.execute(query)
         campaigns = cursor.fetchall()
-    return render_template('elements.html', tariff_list=tariffs, campaign_list=campaigns)
+    return render_template('index.html', tariff_list=tariffs, campaign_list=campaigns)
 
 
 @app.route('/initdb')
