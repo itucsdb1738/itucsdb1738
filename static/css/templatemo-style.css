@@ -1,11 +1,5 @@
-/* 
 
-Rainbow Theme
-
-http://www.templatemo.com/tm-485-rainbow
-
------------------------------*/
-body {	
+body {
 	color: #64572a;
 	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 	font-size: 22px;
@@ -37,8 +31,7 @@ a:focus,
 
 .container { max-width: 1040px; }
 
-/* Sticky header 
---------------------------*/
+
 .tm-header-container {
 	position: relative;
 	padding-bottom: 6rem;
@@ -55,7 +48,7 @@ a:focus,
 
 @media (min-width: 768px) {
 	.tm-navbar-row { height: 88px; }
-	.tm-navbar-row-absolute { 
+	.tm-navbar-row-absolute {
 		position: absolute;
 		left: 0;
 		right: 0;
@@ -65,13 +58,13 @@ a:focus,
 		position: fixed;
 		top: 0;
 		font-size: 0.6em;
-		height: 54px;		
+		height: 54px;
 		background-color: rgba(235, 222, 180, 0.86);
 	}
 }
 
 @media (max-width: 767px) {
-	
+
 	.navbar { padding: 0; }
 
 	.tm-navbar-rounded { border-radius: 10px; }
@@ -82,8 +75,7 @@ a:focus,
 	}
 }
 
-/* 1. Site header 
---------------------------*/
+
 .tm-site-title {
     color: #fffeff;
     text-shadow: 0px 2px 2px rgb(146, 109, 46);
@@ -98,8 +90,7 @@ a:focus,
 	margin-bottom: 4rem;
 }
 
-/* 2. Navigation
--------------------------*/
+
 .nav {
 	display: inline-block;
 	font-size: 2.1rem;
@@ -121,13 +112,12 @@ a:focus,
 
 @media (max-width: 767px) {
 	.nav { font-size: 1.6rem; }
-	
+
 	.navbar-nav .nav-item+.nav-item { margin-left: 0; }
 }
 
 
-/* 3. Icon and text 2 column block
----------------------*/
+
 #tm-section-1 {	padding-top: 5rem; }
 
 @media (max-width: 767px) {
@@ -174,18 +164,17 @@ a:focus,
 
 .tm-2-col-text-title {
 	font-size: 2rem;
-    margin-bottom: 20px;    
+    margin-bottom: 20px;
 }
 
 .tm-2-col-text-description {
 	font-weight: 300;
-    line-height: 1.8;    
+    line-height: 1.8;
     margin-bottom: 6%;
     width: 100%;
 }
 
-/* 3. Icon and text 2 column block
-----------------------------------------*/
+
 @media (max-width: 1600px) {
 	.tm-2-col-text {
 		padding-left: 5%;
@@ -225,11 +214,9 @@ a:focus,
 }
 
 @media (max-width: 480px) {
-	.tm-2-col-text { padding: 10% 0; }	
+	.tm-2-col-text { padding: 10% 0; }
 }
 
-/* 4. Plans
----------------*/
 .tm-section {
 	padding-top: 7rem;
 	padding-bottom: 6rem;
@@ -273,8 +260,8 @@ a:focus,
 .tm-bg-green-1,
 .tm-bg-green-2,
 .tm-bg-green-3,
-.tm-color-green { 
-	color: #006633; 
+.tm-color-green {
+	color: #006633;
 }
 
 .tm-bg-blue-1 { background-color: #abddf8; }
@@ -302,12 +289,12 @@ a:focus,
 	border-radius: 2.5rem;
     display: inline-block;
     font-size: 1.4rem;
-    font-weight: 400;    
+    font-weight: 400;
     padding: 0.8rem 3rem;
 	min-width: 180px;
 	width: auto;
 	height: 60px;
-    text-align: center;    
+    text-align: center;
 }
 
 .tm-btn-green {	color: #046134; }
@@ -354,7 +341,7 @@ a:focus,
 	table {	font-size: 1.2rem; }
 	.tm-plan-table-header { font-size: 1.6rem; }
 
-	.tm-plan-table-header, 
+	.tm-plan-table-header,
 	.tm-plan-table-cell	{
 	    padding: 1rem 1.5rem;
 	}
@@ -386,7 +373,7 @@ a:focus,
 
 	.tm-section-small-pad { padding-top: 3rem; }
 
-	.tm-plan-table-header, 
+	.tm-plan-table-header,
 	.tm-plan-table-cell {
 	    padding: 1rem 1.5rem;
 	}
@@ -395,8 +382,7 @@ a:focus,
 	.tm-plan-table-cell-pad-small { padding: .5rem; }
 }
 
-/* 5. Contact
------------------*/
+
 .tm-section-subtitle-contact {
 	margin-bottom: 0;
 	line-height: 1.8;
@@ -410,13 +396,13 @@ a:focus,
 }
 
 @media (max-width: 1700px) {
-	.tm-section-contact-form { background-position: center 195px; }	
+	.tm-section-contact-form { background-position: center 195px; }
 }
 
 @media (max-width: 1500px) {
-	.tm-section-contact-form { 
+	.tm-section-contact-form {
 		background-position: center 300px;
-		background-size: contain; 
+		background-size: contain;
 	}
 }
 
@@ -488,7 +474,7 @@ textarea.form-control {
 .tm-social-icon-link-brown:hover,
 .tm-social-icon-link-brown:focus {
 	color: #E3D4A9;
-	background-color: #655623; 
+	background-color: #655623;
 }
 
 .tm-btn-brown-square {
@@ -512,21 +498,20 @@ textarea.form-control {
 }
 
 .form-control:-moz-placeholder { /* Firefox 18- */
-   color: #655623;  
+   color: #655623;
 }
 
 .form-control::-moz-placeholder {  /* Firefox 19+ */
-   color: #655623;  
+   color: #655623;
 }
 
-.form-control:-ms-input-placeholder {  
-   color: #655623;  
+.form-control:-ms-input-placeholder {
+   color: #655623;
 }
 
-/* 5. contact 
---------------*/
+
 @media (max-width: 1199px) {
-	.tm-form-group-right { padding-left: 0;	}	
+	.tm-form-group-right { padding-left: 0;	}
 }
 
 @media (max-width: 767px) {
@@ -542,8 +527,7 @@ textarea.form-control {
 	.form-control {	padding: .5rem .75rem; }
 }
 
-/* 6. footer
---------------*/
+
 .tm-footer { margin-top: 15rem; }
 .tm-copyright-text {
 	color: #655623;
@@ -556,8 +540,7 @@ textarea.form-control {
 	.tm-footer { margin-top: 8rem; }
 }
 
-/* Elements page
------------------------*/
+
 .tm-section-small-pad {
 	padding-top: 7rem;
 	padding-bottom: 0;
@@ -641,8 +624,8 @@ textarea.form-control {
 	background-color: #993399;
 }
 
-.tm-btn-gray { 
-	background-color: #cccccc; 
+.tm-btn-gray {
+	background-color: #cccccc;
 	color: #000000;
 }
 .tm-btn-gray:hover,
@@ -658,9 +641,9 @@ textarea.form-control {
 }
 
 .tm-color-black { color: black; }
-.tm-section-title-small { 
+.tm-section-title-small {
 	font-size: 2rem;
-	margin-bottom: 4rem; 
+	margin-bottom: 4rem;
 }
 
 .tm-section-margin-bottom-big {	margin-bottom: 15%; }

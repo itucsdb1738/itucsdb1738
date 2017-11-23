@@ -23,8 +23,8 @@
                 <div class="row tm-site-header">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-xs-center">
 
-                        <h1 class="tm-site-title">Welcome to CS-CELL</h1>
-                      <p class="tm-site-description" style="color:#FBFBEF;"><b>Turkey's Smallest GSM Operator</b></p>  
+                        <h1 class="tm-site-title">Dear {{ user[0][1] }} {{ user[0][2] }}</h1>
+                      <p class="tm-site-description" style="color:#FBFBEF;"><b>This is your personal page</b></p>  
                     
                     </div>
                 </div>
@@ -40,19 +40,22 @@
 
                                     <ul class="nav navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#top">Home</a>
+                                            <a class="nav-link" href="#tm-section-1">Information</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#tm-section-1">About</a>
+                                            <a class="nav-link" href="#tm-section-2">Wallet</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#tm-section-3">Tariffs</a>
+                                            <a class="nav-link" href="#tm-section-3">Data</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#tm-section-4">Campaigns</a>
+                                            <a class="nav-link" href="#tm-section-4">Tariff</a>
                                         </li>
                                         <li class="nav-item">
-                                        	<a class="nav-link external" href="{{ url_for('sign_in_page') }}">Sign In</a>                                                                                                           
+                                            <a class="nav-link" href="#tm-section-4">Campaign</a>
+                                        </li>
+                                        <li class="nav-item">
+                                        	<a class="nav-link external" href="{{ url_for('index_page') }}">Sign Out</a>                                                                                                           
                                         </li>                                        
                                     </ul>
                                 </div>
@@ -64,7 +67,7 @@
 
             </div> 
             
-            <!-- 3. About -->
+            <!-- My Wallet -->
             <div class="row" id="tm-section-1">
                 
                 <div class="container">
@@ -76,22 +79,23 @@
                         </div>
 
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 tm-2-col-text">
-                            <h2 class="tm-2-col-text-title">Less Pay, More Talk</h2>
+                            <h2 class="tm-2-col-text-title">Your Address</h2>
                             <p class="tm-2-col-text-description">
-                                 We offer best campaigns in Turkey  
- 								 <br>You will less pay but more talk
+                            {% for add in address %}
+                                 <b> {{ add[1] }} </b> : {{ add[2] }}<br>
+                            {% endfor %} 
                             </p>
                         </div>
                         
                     </section>
-
+					
+					<!-- Remaining information -->
                     <section class="tm-2-col-img-text" id="tm-section-2">
                     
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 tm-2-col-text">
-                            <h2 class="tm-2-col-text-title">Over +5 Customers</h2>
+                            <h2 class="tm-2-col-text-title">Your Wallet</h2>
                             <p class="tm-2-col-text-description">
-                                We are growing faster  
-                                <br>Choose us to be happy
+                               You have <b> {{ wallet[0][1] }} </b> TL.
                             </p>
                         </div>
                         
@@ -107,15 +111,10 @@
 	<!-- Tariffs -->    
     <div class="container-fluid">
         
-        <!-- Plan -->
         <div class="row tm-section" id="tm-section-3">
             
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-xs-center">
-                <h2 class="tm-section-title">Select Your Tariff</h2>
-                <p class="tm-section-subtitle">
-                     We have different tariffs and campaigns
-                     <br>We appeal to everybody: Students, Business, Economic Pack...                  
-                </p>    
+                <h2 class="tm-section-title">Your Remaining Usage</h2><br>    
             </div>
                     
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">                    
@@ -124,19 +123,13 @@
                         <table class="tm-table-full-width">
                             <thead>
                                 <tr class="tm-bg-green-1">
-                                    <th class="tm-plan-table-header">{{ tariff_list[0][1] }}</th>
+                                    <th class="tm-plan-table-header">Voice: {{ balance[0][2] }}/{{ tariff[0][5] }} </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="tm-bg-green-2"><td class="tm-plan-table-cell">{{ tariff_list[0][4] }} MB</td></tr>
-                                <tr class="tm-bg-green-3"><td class="tm-plan-table-cell">{{ tariff_list[0][5] }} MIN</td></tr>
-                                <tr class="tm-bg-green-1"><td class="tm-plan-table-cell">{{ tariff_list[0][6] }} SMS</td></tr>
-                                <tr class="tm-bg-green-2"><td class="tm-plan-table-cell">{{ tariff_list[0][3] }} ₺</td></tr>
-                                <tr class="tm-bg-green-3">
-                                    <td class="tm-plan-table-cell tm-plan-table-cell-pad-small text-xs-center">
-                                        <a href="#top" class="tm-bg-green-1 tm-btn-rounded tm-btn-green">Buy</a>
-                                    </td>
-                                </tr>
+                                <tr class="tm-bg-green-2"><td class="tm-plan-table-cell">
+                                	<div id=piechart_3d></div>
+                                </td></tr>
                             </tbody>
                         </table>  
                     </div>
@@ -145,19 +138,13 @@
                         <table class="tm-table-full-width">
                             <thead>
                                 <tr class="tm-bg-blue-1">
-                                    <th class="tm-plan-table-header">{{ tariff_list[1][1] }}</th>
+                                    <th class="tm-plan-table-header">Sms: {{ balance[0][3] }}/{{ tariff[0][6] }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="tm-bg-blue-2"><td class="tm-plan-table-cell">{{ tariff_list[1][4] }} MB</td></tr>
-                                <tr class="tm-bg-blue-3"><td class="tm-plan-table-cell">{{ tariff_list[1][5] }} MIN</td></tr>
-                                <tr class="tm-bg-blue-1"><td class="tm-plan-table-cell">{{ tariff_list[1][6] }} SMS</td></tr>
-                                <tr class="tm-bg-blue-2"><td class="tm-plan-table-cell">{{ tariff_list[1][3] }} ₺</td></tr>
-                                <tr class="tm-bg-blue-3">
-                                    <td class="tm-plan-table-cell tm-plan-table-cell-pad-small text-xs-center">
-                                        <a href="#top" class="tm-bg-blue-1 tm-btn-rounded tm-btn-blue">Buy</a>
-                                    </td>
-                                </tr>
+                                <tr class="tm-bg-blue-2"><td class="tm-plan-table-cell">
+                                	<div id=piechart_3d_2></div>
+                                </td></tr>
                             </tbody>
                         </table>  
                     </div>
@@ -166,19 +153,13 @@
                         <table class="tm-table-full-width">
                             <thead>
                                 <tr class="tm-bg-gold-1">
-                                    <th class="tm-plan-table-header">{{ tariff_list[2][1] }}</th>
+                                    <th class="tm-plan-table-header">Data: {{ balance[0][1] }}/{{ tariff[0][4] }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="tm-bg-gold-2"><td class="tm-plan-table-cell">{{ tariff_list[2][4] }} MB</td></tr>
-                                <tr class="tm-bg-gold-3"><td class="tm-plan-table-cell">{{ tariff_list[2][5] }} MIN</td></tr>
-                                <tr class="tm-bg-gold-1"><td class="tm-plan-table-cell">{{ tariff_list[2][6] }} SMS</td></tr>
-                                <tr class="tm-bg-gold-2"><td class="tm-plan-table-cell">{{ tariff_list[2][3] }} ₺</td></tr>
-                                <tr class="tm-bg-gold-3">
-                                    <td class="tm-plan-table-cell tm-plan-table-cell-pad-small text-xs-center">
-                                        <a href="#top" class="tm-bg-gold-1 tm-btn-rounded tm-btn-gold">Buy</a>
-                                    </td>
-                                </tr>
+                                <tr class="tm-bg-gold-2"><td class="tm-plan-table-cell">
+                                	<div id=piechart_3d_3></div>
+                                </td></tr>
                             </tbody>
                         </table>                     
                     </div>
@@ -195,89 +176,71 @@
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 
 			<div class="tm-plan-boxes-container">
+			
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-xs-center">
+                <h2 class="tm-section-title">Your Tariff - Your Campaign</h2><br>    
+            </div>				
 
-				<div
-					class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-table-container">
-
-					<table class="tm-table-full-width tm-font-thin">
-						<thead>
-							<tr class="tm-bg-pink-1">
-								<th class="tm-plan-table-header">{{ campaign_list[0][1] }}</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class="tm-bg-pink-2">
-								<td class="tm-plan-table-cell">{{ campaign_list[0][2] }}<br>
-								<br></td>
-							</tr>
-							<tr class="tm-bg-pink-3">
-								<td class="tm-plan-table-cell">{{ campaign_list[0][3] }}<br>
-								<br></td>
-							</tr>
-							<tr class="tm-bg-pink-3">
-								<td
-									class="tm-plan-table-cell tm-plan-table-cell-pad-small text-xs-center">
-									<a href="#top" class="tm-bg-pink-1 tm-btn-rounded tm-btn-pink">Order</a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-
-				</div>
-
-				<div
-					class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-table-container">
+				<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-table-container">
 
 					<table class="tm-table-full-width tm-font-thin">
 						<thead>
 							<tr class="tm-bg-blue-1">
-								<th class="tm-plan-table-header">{{ campaign_list[1][1] }}</th>
+								<th class="tm-plan-table-header">{{ tariff[0][1] }}</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr class="tm-bg-blue-2">
-								<td class="tm-plan-table-cell">{{ campaign_list[1][2] }}</td>
+								<td class="tm-plan-table-cell">Data : {{ tariff[0][4] }}
+								<br></td>
 							</tr>
 							<tr class="tm-bg-blue-3">
-								<td class="tm-plan-table-cell">{{ campaign_list[1][3] }}</td>
+								<td class="tm-plan-table-cell">MIN : {{ tariff[0][5] }}
+								<br></td>
 							</tr>
-							<tr class="tm-bg-blue-3">
-								<td
-									class="tm-plan-table-cell tm-plan-table-cell-pad-small text-xs-center">
-									<a href="#top" class="tm-bg-blue-1 tm-btn-rounded tm-btn-blue">Order</a>
-								</td>
+							<tr class="tm-bg-blue-2">
+								<td class="tm-plan-table-cell">SMS : {{ tariff[0][6] }}
+								<br></td>
+							</tr>
+							<tr class="tm-bg-blue-1">
+								<td class="tm-plan-table-cell">Price : {{ tariff[0][3] }} ₺
+								<br></td>
 							</tr>
 						</tbody>
 					</table>
 
-				</div>
-
-				<div
-					class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-table-container">
+				</div>	
+				
+				
+		
+				
+				<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-table-container">
 
 					<table class="tm-table-full-width tm-font-thin">
 						<thead>
-							<tr class="tm-bg-gold-1">
-								<th class="tm-plan-table-header">{{ campaign_list[2][1] }}</th>
+							<tr class="tm-bg-pink-1">
+								<th class="tm-plan-table-header">Your Campaign</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="tm-bg-gold-2">
-								<td class="tm-plan-table-cell">{{ campaign_list[2][2] }}</td>
-							</tr>
-							<tr class="tm-bg-gold-3">
-								<td class="tm-plan-table-cell">{{ campaign_list[2][3] }}<br>
+							<tr class="tm-bg-pink-2">
+								<td class="tm-plan-table-cell">{{ campaign[0][1] }}
 								<br></td>
 							</tr>
-							<tr class="tm-bg-gold-3">
-								<td
-									class="tm-plan-table-cell tm-plan-table-cell-pad-small text-xs-center">
-									<a href="#top" class="tm-bg-gold-1 tm-btn-rounded tm-btn-gold">Order</a>
-								</td>
+							<tr class="tm-bg-pink-3">
+								<td class="tm-plan-table-cell">{{ campaign[0][2] }}
+								<br></td>
+							</tr>
+							<tr class="tm-bg-pink-2">
+								<td class="tm-plan-table-cell">{{ campaign[0][3] }}
+								<br></td>
 							</tr>
 						</tbody>
 					</table>
+
 				</div>
+										
+				
 			</div>
 		</div>
 	</div>
@@ -358,6 +321,83 @@
 
     </script>
 
+	
+	<!-- Pie chart for Voice -->
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Minute', 'Time as Minute'],
+          ['Used',     {{ tariff[0][5] }} - {{ balance[0][2] }}],
+          ['Remainig',      {{ balance[0][2] }}]
+        ]);
+
+        var options = {
+          backgroundColor: 'transparent',
+          is3D: true,
+          'width': 300,
+          'height': 150,
+          colors: ['#009933', '#00cc00']
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
+    
+    
+    <!-- Pie chart2 for Sms -->
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Sms', 'Total Sms'],
+          ['Used',    {{ tariff[0][6] }} - {{ balance[0][3] }}],
+          ['Remainig',      {{ balance[0][3] }}]
+        ]);
+
+        var options = {
+          backgroundColor: 'transparent',
+          is3D: true,
+          'width': 300,
+          'height': 150,
+          colors: ['#0033cc', '#809fff']
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d_2'));
+        chart.draw(data, options);
+      }
+    </script>
+    
+    
+    <!-- Pie chart3 for Data -->
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Data', 'Total Data'],
+          ['Used',     {{ tariff[0][4] }} - {{ balance[0][1] }}],
+          ['Remainig',      {{ balance[0][1] }}]
+        ]);
+
+        var options = {
+          backgroundColor: 'transparent',
+          is3D: true,
+          'width': 300,
+          'height': 150,
+           colors: ['#997300', '#ffcc80']
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d_3'));
+        chart.draw(data, options);
+      }
+    </script>
 
 
 </body>

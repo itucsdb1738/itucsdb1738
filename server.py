@@ -6,11 +6,13 @@ import re
 
 from flask import Flask
 from flask import redirect
+from flask import request
+from flask import session
 from flask import render_template
 from flask.helpers import url_for
+from pip._vendor.requests.api import post
 
 app = Flask(__name__)
-
 
 def get_elephantsql_dsn(vcap_services):
     """Returns the data source name for ElephantSQL."""
@@ -35,6 +37,84 @@ def index_page():
         cursor.execute(query)
         campaigns = cursor.fetchall()
     return render_template('index.html', tariff_list=tariffs, campaign_list=campaigns)
+
+
+@app.route('/user', methods=['GET', 'POST'])
+def user_page():
+    uid = request.args['user_information']
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM CUSTOMER WHERE ID = (SELECT CUSTOMER_ID FROM CONTRACT WHERE ID = (SELECT CONTRACT_ID FROM MSISDN WHERE ID = '%s'))"%uid)
+        user = cursor.fetchall()
+
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM WALLET WHERE CUSTOMER_ID = (SELECT ID FROM CUSTOMER WHERE ID = (SELECT CUSTOMER_ID FROM CONTRACT WHERE ID = (SELECT CONTRACT_ID FROM MSISDN WHERE ID = '%s')))"%uid)
+        wallet = cursor.fetchall()
+
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM ADDRESS WHERE CONTRACT_ID = (SELECT CONTRACT_ID FROM MSISDN WHERE ID = '%s')"%uid)
+        address = cursor.fetchall()
+
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM BALANCE WHERE MSISDN_ID = '%s'"%uid)
+        balance = cursor.fetchall()
+
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM TARIFF WHERE ID = (SELECT TARIFF_ID FROM MSISDN WHERE ID = '%s')"%uid)
+        tariff = cursor.fetchall()
+
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM CAMPAIGN WHERE ID = (SELECT campaign_id FROM CAMPAIGN_MSISDN WHERE msisdn_id = '%s')"%uid)
+        campaign = cursor.fetchall()
+
+    print(user)
+    print(wallet)
+    print(address)
+    print(balance)
+    print(tariff)
+    print(campaign)
+    return render_template('user_page.html', user=user, wallet=wallet, address=address, balance=balance, tariff=tariff, campaign=campaign)
+
+
+@app.route('/sign_in', methods=['GET', 'POST'])
+def sign_in_page():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT msisdn_number, password FROM MSISDN"""
+        cursor.execute(query)
+        users = cursor.fetchall()
+
+    error = None
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        exists = False
+        for row in users:
+            if username == row[0] and password == row[1]:
+                exists = True
+
+        if exists == False:
+            error = 'Invalid Credentials. Please try again.'
+            print('Error : ', error)
+
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+
+                cursor.execute("SELECT id FROM MSISDN WHERE msisdn_number='%s'"%username)
+                data = cursor.fetchall()
+
+            user_information = data[0][0]
+            print('MSISDN id : ', user_information)
+
+            return redirect(url_for('user_page', user_information=user_information))
+
+    try:
+        print("TRY")
+        return render_template('sign_in.html', error=error)
+    except:
+        print("EXCEPT")
+        return render_template('sign_in.html', error=error)
 
 
 @app.route('/initdb')
@@ -237,10 +317,10 @@ def initialize_database():
 
         ### I insert some data to the BALANCE table.
         query = """ INSERT INTO BALANCE(remaining_data, remaining_voice, remaining_sms, msisdn_id, contract_id)
-                        VALUES(730, 720, 656, 0, 1);
+                        VALUES(730, 720, 0, 0, 1);
 
                     INSERT INTO BALANCE(remaining_data, remaining_voice, remaining_sms, msisdn_id, contract_id)
-                        VALUES(1234, 21, 4843, 0, 2);
+                        VALUES(722, 21, 443, 0, 2);
 
                     INSERT INTO BALANCE(remaining_data, remaining_voice, remaining_sms, msisdn_id, contract_id)
                         VALUES(325, 452, 123, 0, 3);
@@ -319,6 +399,6 @@ if __name__ == '__main__':
         app.config['dsn'] = get_elephantsql_dsn(VCAP_SERVICES)
     else:
         app.config['dsn'] = """user='vagrant' password='vagrant'
-                               host='localhost' port=5432 dbname='itucsdb'"""
+                               host='localhost' port=5433 dbname='itucsdb'"""
 
     app.run(host='0.0.0.0', port=port, debug=debug)
