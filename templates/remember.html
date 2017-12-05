@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Remember Password</title>
+      <link rel="stylesheet" href=" {{ url_for('static', filename='css/style_SignIn.css') }}">
+</head>
+
+<body>
+  <div class="remember-page">
+   	<br></br><br></br>
+   	<div class="form">		    
+	    <form class="remember-form" method="post">	    
+	      <input type="text" placeholder="Phone number" name="phone_number"  value="{{ request.form.phone_number }}"/>
+	      <input type="text" placeholder="Secret question" name="secret_question"  value="{{ request.form.secret_question }}"/>
+	      <input type="password" placeholder="Secret password" name="secret_answer"  value="{{ request.form.secret_answer }}"/>
+	      <button>Send</button>
+	      <p class="message">Go to <a class="nav-link external" href="{{ url_for('sign_in_page') }}">Login</a></p>
+	    </form>
+	    
+	    {% if error %}
+          <p class="error"><strong>Error:</strong> {{ error }}
+        {% endif %}
+        {% if user_password %}
+          <p class="error"><strong>Your password : </strong> {{ user_password }}
+        {% endif %}
+
+  </div>
+</div>
+  
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script  src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+</body>
+</html>

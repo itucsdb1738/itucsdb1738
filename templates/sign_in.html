@@ -8,23 +8,16 @@
 
 <body>
   <div class="login-page">
-  <div class="form">	
-  <form class="register-form">
-      <input type="text" placeholder="name"/>
-      <input type="password" placeholder="password"/>
-      <input type="text" placeholder="email address"/>
-      <button>Send</button>
-      <p class="message">Go Back <a href="#">Sign Up</a></p>
-    </form>    
-    <form class="login-form" method="post">
-      <input type="text" placeholder="phone_number" name="username"  value="{{ request.form.username }}"/>
-      <input type="password" placeholder="password" name="password"  value="{{ request.form.username }}"/>
-      <button>Login</button>
-      <p class="message">Forgot your password? <a href="#">Remember..</a></p>
-    </form>
+   	<div class="form">		    
+	    <form class="login-form" method="post">
+	      <input type="text" placeholder="Phone number" name="username"  value="{{ request.form.username }}"/>
+	      <input type="password" placeholder="Password" name="password"  value="{{ request.form.password }}"/>
+	      <button>Login</button>
+	      <p class="message">Forgot your password? <a class="nav-link external" href="{{ url_for('remember_page') }}">Remember..</a></p>
+	    </form>
     
         {% if error %}
-          <p class="error"><strong>Error:</strong> {{ error }}
+          <p class="error"><strong>Error : </strong> {{ error }}
         {% endif %}
   </div>
 </div>

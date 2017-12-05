@@ -117,6 +117,53 @@ def sign_in_page():
         return render_template('sign_in.html', error=error)
 
 
+@app.route('/remember', methods=['GET', 'POST'])
+def remember_page():
+    error = None
+    user_password = None
+    if request.method == 'POST':
+        phone_number = request.form['phone_number']
+        secret_question = request.form['secret_question']
+        secret_answer = request.form['secret_answer']
+
+        if (phone_number == '') & (secret_question == '') & (secret_answer == ''):
+            error = 'Please fill blank areas.'
+        elif (phone_number == '') & (secret_question == ''):
+            error = 'Please enter your phone_number and secret_question.'
+        elif (phone_number == '') & (secret_answer == ''):
+            error = 'Please enter your phone_number and secret_answer.'
+        elif (secret_question == '') & (secret_answer == ''):
+            error = 'Please enter your secret_question and secret_answer.'
+        elif secret_question == '':
+            error = 'Please enter your secret_question.'
+        elif secret_answer == '':
+            error = 'Please enter your secret_answer.'
+        elif phone_number == '':
+            error = 'Please enter your phone number.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                cursor.execute("SELECT secret_question, secret_answer FROM CONTRACT WHERE id = (SELECT contract_id FROM MSISDN WHERE msisdn_number='%s')"%phone_number)
+                data = cursor.fetchall()
+
+                matched = False
+                for row in data:
+                    if secret_question == row[0] and secret_answer == row[1]:
+                        matched = True
+
+                if matched == False:
+                    error = 'Invalid information. Please try again.'
+                else:
+                    with dbapi2.connect(app.config['dsn']) as connection:
+                        cursor = connection.cursor()
+                        cursor.execute("SELECT password FROM MSISDN WHERE msisdn_number='%s'"%phone_number)
+                        password = cursor.fetchall()
+
+                    error = None
+                    user_password = password[0][0]
+    return render_template('remember.html', error=error, user_password=user_password)
+
+
 @app.route('/initdb')
 def initialize_database():
     with dbapi2.connect(app.config['dsn']) as connection:
