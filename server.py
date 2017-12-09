@@ -76,6 +76,95 @@ def user_page():
     return render_template('user_page.html', user=user, wallet=wallet, address=address, balance=balance, tariff=tariff, campaign=campaign)
 
 
+@app.route('/admin', methods=['GET', 'POST'])
+def admin_page():
+    return render_template('admin.html')
+
+
+@app.route('/customer_list', methods=['GET', 'POST'])
+def customer_list_page():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT * FROM CUSTOMER"""
+        cursor.execute(query)
+        customers = cursor.fetchall()
+
+    return render_template('customer_list.html', customers=customers)
+
+
+@app.route('/customer_add', methods=['GET', 'POST'])
+def customer_add_page():
+    info = None
+    if request.method == 'POST':
+        Name = request.form['name']
+        Surname = request.form['surname']
+        Birth_date = request.form['birth_date']
+
+        if (Name == '') & (Surname == '') & (Birth_date == ''):
+            info = 'Please fill blank areas.'
+        elif (Name == '') & (Surname == ''):
+            info = 'Please enter name and surname.'
+        elif (Name == '') & (Birth_date == ''):
+            info = 'Please enter name and birth date.'
+        elif (Surname == '') & (Birth_date == ''):
+            info = 'Please enter surname and birth date.'
+        elif (Name == '') & (Birth_date == ''):
+            info = 'Please enter name and birth date.'
+        elif Name == '':
+            info = 'Please enter name.'
+        elif Surname == '':
+            info = 'Please enter surname.'
+        elif Birth_date == '':
+            info = 'Please enter birth date.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                cursor.execute("INSERT INTO CUSTOMER(name, surname, birth_date) VALUES ('%s', '%s', '%s')"%(Name, Surname, Birth_date))
+                connection.commit()
+                info = "Customer added successfully."
+
+    return render_template('customer_add.html', info=info)
+
+
+@app.route('/customer_update', methods=['GET', 'POST'])
+def customer_update_page():
+    info = None
+    if request.method == 'POST':
+        ID = request.form['id']
+        Name = request.form['name']
+        Surname = request.form['surname']
+        Birth_date = request.form['birth_date']
+
+        if (ID == '') | (Name == '') | (Surname == '') | (Birth_date == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                cursor.execute("UPDATE CUSTOMER SET name = '%s', surname = '%s',  birth_date = '%s' WHERE id = '%s'"%(Name, Surname, Birth_date, ID))
+                connection.commit()
+                info = "Customer updated successfully."
+
+    return render_template('customer_update.html', info=info)
+
+
+@app.route('/customer_delete', methods=['GET', 'POST'])
+def customer_delete_page():
+    info = None
+    if request.method == 'POST':
+        ID = request.form['id']
+
+        if (ID == ''):
+            info = 'Please enter customer id.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                cursor.execute("DELETE FROM CUSTOMER WHERE id = '%s'"%ID)
+                connection.commit()
+                info = "Customer deleted successfully."
+
+    return render_template('customer_delete.html', info=info)
+
+
 @app.route('/sign_in', methods=['GET', 'POST'])
 def sign_in_page():
     with dbapi2.connect(app.config['dsn']) as connection:
@@ -84,36 +173,47 @@ def sign_in_page():
         cursor.execute(query)
         users = cursor.fetchall()
 
+        query = """SELECT * FROM CUSTOMER"""
+        cursor.execute(query)
+        adminInfo = cursor.fetchall()
+
     error = None
     if request.method == 'POST':
-        username = request.form['username']
+        phone_number = request.form['phone_number']
         password = request.form['password']
         exists = False
+        is_admin = False
+
+        if phone_number == adminInfo[4][1] and password == adminInfo[4][2]:
+            is_admin = True
+
         for row in users:
-            if username == row[0] and password == row[1]:
+            if phone_number == row[0] and password == row[1]:
                 exists = True
 
-        if exists == False:
-            error = 'Invalid Credentials. Please try again.'
-            print('Error : ', error)
-
+        if is_admin == True:
+            return redirect(url_for('admin_page'))
         else:
-            with dbapi2.connect(app.config['dsn']) as connection:
-                cursor = connection.cursor()
+            if exists == False:
+                error = 'Invalid Credentials. Please try again.'
+                print('Error : ', error)
+            else:
+                with dbapi2.connect(app.config['dsn']) as connection:
+                    cursor = connection.cursor()
 
-                cursor.execute("SELECT id FROM MSISDN WHERE msisdn_number='%s'"%username)
-                data = cursor.fetchall()
+                    cursor.execute("SELECT id FROM MSISDN WHERE msisdn_number='%s'"%phone_number)
+                    data = cursor.fetchall()
 
-            user_information = data[0][0]
-            print('MSISDN id : ', user_information)
+                user_information = data[0][0]
+                print('MSISDN id : ', user_information)
 
-            return redirect(url_for('user_page', user_information=user_information))
+                return redirect(url_for('user_page', user_information=user_information))
 
     try:
-        print("TRY")
+        print("try")
         return render_template('sign_in.html', error=error)
     except:
-        print("EXCEPT")
+        print("expect")
         return render_template('sign_in.html', error=error)
 
 
@@ -300,7 +400,10 @@ def initialize_database():
                         VALUES('Gabriel', 'Jacobs', '1965-02-14');
 
                     INSERT INTO CUSTOMER(name, surname, birth_date)
-                        VALUES('Lynne', 'Warren', '1981-04-17')"""
+                        VALUES('Lynne', 'Warren', '1981-04-17');
+
+                    INSERT INTO CUSTOMER(name, surname, birth_date)
+                        VALUES('Admin', '123456', '1991-06-09')"""
         cursor.execute(query)
 
         ### I insert some data to the CONTRACT table.

@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>List Customer</title>
+    
+	<!-- BOOTSTRAP STYLES-->
+    <link href="{{ url_for('static', filename='assets/css/bootstrap.css') }}" rel="stylesheet" />
+     <!-- FONTAWESOME STYLES-->
+    <link href="  {{ url_for('static', filename='assets/css/font-awesome.css') }}" rel="stylesheet" />
+        <!-- CUSTOM STYLES-->
+    <link href="{{ url_for('static', filename='assets/css/custom.css') }}" rel="stylesheet" />
+     <!-- GOOGLE FONTS-->
+   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+  
+</head>
+<body>           
+          
+    <div id="wrapper">
+         <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="adjust-nav">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand"><i class="fa fa-square-o "></i>&nbsp;Customer List</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- /. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li class="text-center user-image-back">
+                        <img src="{{ url_for('static', filename='assets/img/find_user.png') }}" class="img-responsive" />                     
+                    </li>
+                    <li>
+                        <a class="nav-link external" href="{{ url_for('admin_page') }}"><i class="fa fa-desktop "></i>Dashboard</a>
+                    </li>
+
+					<li>
+                        <a href="#"><i class="fa fa-edit "></i>Customer<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="nav-link external" href="{{ url_for('customer_list_page') }}">List</a>
+                            </li>
+                            <li>
+                                <a class="nav-link external" href="{{ url_for('customer_add_page') }}">Add</a>
+                            </li>
+                            <li>
+                                <a class="nav-link external" href="{{ url_for('customer_update_page') }}">Update</a>
+                            </li>
+                            <li>
+                                <a class="nav-link external" href="{{ url_for('customer_delete_page') }}">Delete</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="fa fa-edit "></i>Contract<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">List</a>
+                            </li>
+                            <li>
+                                <a href="#">Add</a>
+                            </li>
+                            <li>
+                                <a href="#">Update</a>
+                            </li>
+                            <li>
+                                <a href="#">Delete</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-edit "></i>Address<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">List</a>
+                            </li>
+                            <li>
+                                <a href="#">Add</a>
+                            </li>
+                            <li>
+                                <a href="#">Update</a>
+                            </li>
+                            <li>
+                                <a href="#">Delete</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <a href="#"><i class="fa fa-edit "></i>Wallet<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">List</a>
+                            </li>
+                            <li>
+                                <a href="#">Add</a>
+                            </li>
+                            <li>
+                                <a href="#">Update</a>
+                            </li>
+                            <li>
+                                <a href="#">Delete</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-edit "></i>Tariff<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">List</a>
+                            </li>
+                            <li>
+                                <a href="#">Add</a>
+                            </li>
+                            <li>
+                                <a href="#">Update</a>
+                            </li>
+                            <li>
+                                <a href="#">Delete</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-edit "></i>Balance<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">List</a>
+                            </li>
+                            <li>
+                                <a href="#">Add</a>
+                            </li>
+                            <li>
+                                <a href="#">Update</a>
+                            </li>
+                            <li>
+                                <a href="#">Delete</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="fa fa-edit "></i>Msisdn<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">List</a>
+                            </li>
+                            <li>
+                                <a href="#">Add</a>
+                            </li>
+                            <li>
+                                <a href="#">Update</a>
+                            </li>
+                            <li>
+                                <a href="#">Delete</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                     <li>
+                        <a href="#"><i class="fa fa-edit "></i>Campaign<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">List</a>
+                            </li>
+                            <li>
+                                <a href="#">Add</a>
+                            </li>
+                            <li>
+                                <a href="#">Update</a>
+                            </li>
+                            <li>
+                                <a href="#">Delete</a>
+                            </li>
+                        </ul>
+                    </li>               
+            
+                </ul>
+
+            </div>
+
+        </nav>
+        
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper" >
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                     <h2>Customer List</h2>   
+                    </div>
+                </div>              
+                 <!-- /. ROW  -->
+                  <hr />
+	              <table class="table">
+	              {% if customers %}
+	              		<thead>
+							<tr>
+								<th>id</th>
+								<th>Name</th>
+								<th>Surname</th>
+								<th>Birth Date</th>
+							</tr>
+						</thead>
+		              {% for customer in customers %}						
+						<tbody>
+							<tr>
+						
+						    <td class="success">{{ customer[0]}}</td>
+						    <td class="info">{{ customer[1]}}</td>
+						    <td class="warning">{{ customer[2]}}</td>
+						    <td class="danger">{{ customer[3]}}</td>
+						    
+						  </tr>
+					  	</tbody>
+					{% endfor %}
+				{% endif %}
+				</table>
+                 <!-- /. ROW  -->           
+   			 </div>
+             <!-- /. PAGE INNER  -->
+            </div>
+         <!-- /. PAGE WRAPPER  -->
+        </div>
+
+    <script src="{{ url_for('static', filename='assets/js/jquery-1.10.2.js') }}"></script>
+      <!-- BOOTSTRAP SCRIPTS -->
+    <script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="{{ url_for('static', filename='assets/js/jquery.metisMenu.js') }}"></script>
+      <!-- CUSTOM SCRIPTS -->
+    <script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+    
+   
+</body>
+</html>
