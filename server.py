@@ -91,7 +91,6 @@ def customer_list_page():
 
     return render_template('customer_list.html', customers=customers)
 
-
 @app.route('/customer_add', methods=['GET', 'POST'])
 def customer_add_page():
     info = None
@@ -125,7 +124,6 @@ def customer_add_page():
 
     return render_template('customer_add.html', info=info)
 
-
 @app.route('/customer_update', methods=['GET', 'POST'])
 def customer_update_page():
     info = None
@@ -140,12 +138,25 @@ def customer_update_page():
         else:
             with dbapi2.connect(app.config['dsn']) as connection:
                 cursor = connection.cursor()
-                cursor.execute("UPDATE CUSTOMER SET name = '%s', surname = '%s',  birth_date = '%s' WHERE id = '%s'"%(Name, Surname, Birth_date, ID))
-                connection.commit()
-                info = "Customer updated successfully."
+                query = """SELECT id FROM CUSTOMER"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                ID = int(ID)
+                user_found = False
+
+                for row in IDs:
+                    if ID == row[0]:
+                        user_found = True
+
+                if user_found == True:
+                    cursor.execute("UPDATE CUSTOMER SET name = '%s', surname = '%s',  birth_date = '%s' WHERE id = '%d'"%(Name, Surname, Birth_date, ID))
+                    connection.commit()
+                    info = "Customer updated successfully."
+                else:
+                    info = "Customer id cannot be found. Try again."
 
     return render_template('customer_update.html', info=info)
-
 
 @app.route('/customer_delete', methods=['GET', 'POST'])
 def customer_delete_page():
@@ -158,11 +169,136 @@ def customer_delete_page():
         else:
             with dbapi2.connect(app.config['dsn']) as connection:
                 cursor = connection.cursor()
-                cursor.execute("DELETE FROM CUSTOMER WHERE id = '%s'"%ID)
-                connection.commit()
-                info = "Customer deleted successfully."
+                query = """SELECT id FROM CUSTOMER"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                ID = int(ID)
+                user_found = False
+
+                for row in IDs:
+                    if ID == row[0]:
+                        user_found = True
+
+                if user_found == True:
+                    cursor.execute("DELETE FROM CUSTOMER WHERE id = '%d'"%ID)
+                    connection.commit()
+                    info = "Customer deleted successfully."
+                else:
+                    info = "Customer id cannot be found. Try again."
 
     return render_template('customer_delete.html', info=info)
+
+
+
+@app.route('/contract_list', methods=['GET', 'POST'])
+def contract_list_page():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT * FROM CONTRACT"""
+        cursor.execute(query)
+        contracts = cursor.fetchall()
+
+    return render_template('contract_list.html', contracts=contracts)
+
+@app.route('/contract_add', methods=['GET', 'POST'])
+def contract_add_page():
+    info = None
+    if request.method == 'POST':
+        s_question = request.form['secret_question']
+        s_answer = request.form['secret_answer']
+        c_id = request.form['customer_id']
+
+        if (s_question == '') | (s_answer == '') | (c_id == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM CUSTOMER"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                c_id = int(c_id)
+                user_found = False
+
+                for row in IDs:
+                    if c_id == row[0]:
+                        user_found = True
+
+                if user_found == True:
+                    cursor.execute("INSERT INTO CONTRACT(secret_question, secret_answer, customer_id) VALUES ('%s', '%s', '%d')"%(s_question, s_answer, c_id))
+                    connection.commit()
+                    info = "Contract added successfully."
+                else:
+                    info = "Customer id cannot be found. Try again."
+
+    return render_template('contract_add.html', info=info)
+
+@app.route('/contract_update', methods=['GET', 'POST'])
+def contract_update_page():
+    info = None
+    if request.method == 'POST':
+        id = request.form['id']
+        s_question = request.form['secret_question']
+        s_answer = request.form['secret_answer']
+        c_id = request.form['c_id']
+
+        if (id == '') | (s_question == '') | (s_answer == '') | (c_id == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM CONTRACT"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                id = int(id)
+                contract_found = False
+
+                for row in IDs:
+                    if id == row[0]:
+                        contract_found = True
+
+                if contract_found == True:
+                    cursor.execute("UPDATE CONTRACT SET secret_question = '%s', secret_answer = '%s',  customer_id = '%s' WHERE id = '%d'"%(s_question, s_answer, c_id, id))
+                    connection.commit()
+                    info = "Contract updated successfully."
+                else:
+                    info = "Contract id cannot be found. Try again."
+
+    return render_template('contract_update.html', info=info)
+
+@app.route('/contract_delete', methods=['GET', 'POST'])
+def contract_delete_page():
+    info = None
+    if request.method == 'POST':
+        ID = request.form['id']
+
+        if (ID == ''):
+            info = 'Please enter contract id.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM CONTRACT"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                ID = int(ID)
+                contract_found = False
+
+                for row in IDs:
+                    if ID == row[0]:
+                        contract_found = True
+
+                if contract_found == True:
+                    cursor.execute("DELETE FROM CONTRACT WHERE id = '%d'"%ID)
+                    connection.commit()
+                    info = "Contract deleted successfully."
+                else:
+                    info = "Contract id cannot be found. Try again."
+
+    return render_template('contract_delete.html', info=info)
+
 
 
 @app.route('/sign_in', methods=['GET', 'POST'])
