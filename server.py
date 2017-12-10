@@ -878,6 +878,100 @@ def msisdn_delete_page():
     return render_template('msisdn_delete.html', info=info)
 
 
+@app.route('/campaign_list', methods=['GET', 'POST'])
+def campaign_list_page():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT * FROM CAMPAIGN"""
+        cursor.execute(query)
+        campaigns = cursor.fetchall()
+
+    return render_template('campaign_list.html', campaigns=campaigns)
+
+@app.route('/campaign_add', methods=['GET', 'POST'])
+def campaign_add_page():
+    info = None
+    if request.method == 'POST':
+        c_name = request.form['name']
+        c_description = request.form['description']
+        c_rule = request.form['rule']
+
+        if (c_name == '') | (c_description == '') | (c_rule == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                cursor.execute("INSERT INTO CAMPAIGN(name, description, rule) VALUES ('%s', '%s', '%s')"%(c_name, c_description, c_rule))
+                connection.commit()
+                info = "Campaign added successfully."
+
+    return render_template('campaign_add.html', info=info)
+
+@app.route('/campaign_update', methods=['GET', 'POST'])
+def campaign_update_page():
+    info = None
+    if request.method == 'POST':
+        id = request.form['id']
+        c_name = request.form['name']
+        c_description = request.form['description']
+        c_rule = request.form['rule']
+
+        if (id == '') | (c_name == '') | (c_description == '') | (c_rule == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM CAMPAIGN"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                id = int(id)
+                campaign_found = False
+
+                for row in IDs:
+                    if id == row[0]:
+                        campaign_found = True
+
+                if campaign_found == True:
+                    cursor.execute("UPDATE CAMPAIGN SET name = '%s', description = '%s', rule = '%s' WHERE id = '%d'"%(c_name, c_description, c_rule, id))
+                    connection.commit()
+                    info = "Campaign updated successfully."
+                else:
+                    info = "Campaign id cannot be found. Try again."
+
+    return render_template('campaign_update.html', info=info)
+
+@app.route('/campaign_delete', methods=['GET', 'POST'])
+def campaign_delete_page():
+    info = None
+    if request.method == 'POST':
+        ID = request.form['id']
+
+        if (ID == ''):
+            info = 'Please enter campaign id.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM CAMPAIGN"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                ID = int(ID)
+                campaign_found = False
+
+                for row in IDs:
+                    if ID == row[0]:
+                        campaign_found = True
+
+                if campaign_found == True:
+                    cursor.execute("DELETE FROM CAMPAIGN WHERE id = '%d'"%ID)
+                    connection.commit()
+                    info = "Campaign deleted successfully."
+                else:
+                    info = "Campaign id cannot be found. Try again."
+
+    return render_template('campaign_delete.html', info=info)
+
 
 @app.route('/sign_in', methods=['GET', 'POST'])
 def sign_in_page():
@@ -930,7 +1024,6 @@ def sign_in_page():
         print("expect")
         return render_template('sign_in.html', error=error)
 
-
 @app.route('/remember', methods=['GET', 'POST'])
 def remember_page():
     error = None
@@ -976,7 +1069,6 @@ def remember_page():
                     error = None
                     user_password = password[0][0]
     return render_template('remember.html', error=error, user_password=user_password)
-
 
 @app.route('/initdb')
 def initialize_database():

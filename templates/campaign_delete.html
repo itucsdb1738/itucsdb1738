@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>List Customer</title>
+    <title>Delete Campaign</title>
     
 	<!-- BOOTSTRAP STYLES-->
     <link href="{{ url_for('static', filename='assets/css/bootstrap.css') }}" rel="stylesheet" />
@@ -26,7 +26,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand"><i class="fa fa-square-o "></i>&nbsp;Customer List</a>
+                    <a class="navbar-brand"><i class="fa fa-square-o "></i>&nbsp;Delete Campaign</a>
                 </div>
             </div>
         </div>
@@ -88,7 +88,7 @@
                                 <a class="nav-link external" href="{{ url_for('address_add_page') }}">Add</a>
                             </li>
                             <li>
-                                <a class="nav-link external" href="{{ url_for('address_update_page') }}">Update</a>
+                                 <a class="nav-link external" href="{{ url_for('address_update_page') }}">Update</a>
                             </li>
                             <li>
                                 <a class="nav-link external" href="{{ url_for('address_delete_page') }}">Delete</a>
@@ -196,35 +196,25 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                     <h2>Customer List</h2>   
+                     <h2>Delete Campaign</h2>   
                     </div>
                 </div>              
                  <!-- /. ROW  -->
                   <hr />
-	              <table class="table">
-	              {% if customers %}
-	              		<thead>
-							<tr>
-								<th>id</th>
-								<th>Name</th>
-								<th>Surname</th>
-								<th>Birth Date</th>
-							</tr>
-						</thead>
-		              {% for customer in customers %}						
-						<tbody>
-							<tr>
-						
-						    <td class="success">{{ customer[0]}}</td>
-						    <td class="info">{{ customer[1]}}</td>
-						    <td class="warning">{{ customer[2]}}</td>
-						    <td class="danger">{{ customer[3]}}</td>
-						    
-						  </tr>
-					  	</tbody>
-					{% endfor %}
-				{% endif %}
-				</table>
+                  
+	              	<div class="col-md-4">
+                        <div class="form-group">
+                           <form class="customer-add-form" method="post">
+                           	  <h4>Campaign ID</h4>
+                           	  <input class="form-control" type="text" placeholder="id" name="id"  value="{{ request.form.id }}"/><br>    
+						      <button class="btn btn-success btn-lg btn-block">Delete Campaign</button><br>
+						      {% if info %}
+			         			 <p class="error" align="center"><strong> {{ info }} </strong> 
+			        		  {% endif %}						      
+						   </form>                            
+                        </div>
+                    </div>
+                    
                  <!-- /. ROW  -->           
    			 </div>
              <!-- /. PAGE INNER  -->
