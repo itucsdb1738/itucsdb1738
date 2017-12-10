@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>List Wallet</title>
+    <title>List Tariff</title>
     
 	<!-- BOOTSTRAP STYLES-->
     <link href="{{ url_for('static', filename='assets/css/bootstrap.css') }}" rel="stylesheet" />
@@ -26,7 +26,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand"><i class="fa fa-square-o "></i>&nbsp;Wallet List</a>
+                    <a class="navbar-brand"><i class="fa fa-square-o "></i>&nbsp;Tariff List</a>
                 </div>
             </div>
         </div>
@@ -196,27 +196,35 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                     <h2>Wallet List</h2>   
+                     <h2>Tariff List</h2>   
                     </div>
                 </div>              
                  <!-- /. ROW  -->
                   <hr />
 	              <table class="table">
-	              {% if wallets %}
+	              {% if tariffs %}
 	              		<thead>
 							<tr>
 								<th>id</th>
-								<th>Amount</th>
-								<th>Customer id</th>
+								<th>Name</th>
+								<th>Description</th>
+								<th>Price</th>
+								<th>Data</th>
+								<th>Voice</th>
+								<th>Sms</th>
 							</tr>
 						</thead>
-		              {% for wallet in wallets %}						
+		              {% for tariff in tariffs %}						
 						<tbody>
 							<tr>
 						
-						    <td class="success">{{ wallet[0]}}</td>
-						    <td class="info">{{ wallet[1]}}</td>
-						    <td class="warning">{{ wallet[2]}}</td>	
+						    <td class="success">{{ tariff[0]}}</td>
+						    <td class="info">{{ tariff[1]}}</td>
+						    <td class="warning">{{ tariff[2]}}</td>	
+						    <td class="success">{{ tariff[3]}}</td>
+						    <td class="info">{{ tariff[4]}}</td>
+						    <td class="warning">{{ tariff[5]}}</td>	
+						    <td class="success">{{ tariff[6]}}</td>	
 						    
 						  </tr>
 					  	</tbody>

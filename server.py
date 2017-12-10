@@ -516,6 +516,232 @@ def wallet_delete_page():
     return render_template('wallet_delete.html', info=info)
 
 
+@app.route('/tariff_list', methods=['GET', 'POST'])
+def tariff_list_page():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT * FROM TARIFF"""
+        cursor.execute(query)
+        tariffs = cursor.fetchall()
+
+    return render_template('tariff_list.html', tariffs=tariffs)
+
+@app.route('/tariff_add', methods=['GET', 'POST'])
+def tariff_add_page():
+    info = None
+    if request.method == 'POST':
+        t_name = request.form['name']
+        t_description = request.form['description']
+        t_price = request.form['price']
+        t_data = request.form['data']
+        t_voice = request.form['voice']
+        t_sms = request.form['sms']
+
+        if (t_name == '') | (t_description == '') | (t_price == '') | (t_data == '') | (t_voice == '') | (t_sms == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                cursor.execute("INSERT INTO TARIFF(name, description, price, data, voice, sms) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')"%(t_name, t_description, t_price, t_data, t_voice, t_sms))
+                connection.commit()
+                info = "Tariff added successfully."
+
+    return render_template('tariff_add.html', info=info)
+
+@app.route('/tariff_update', methods=['GET', 'POST'])
+def tariff_update_page():
+    info = None
+    if request.method == 'POST':
+        id = request.form['id']
+        t_name = request.form['name']
+        t_description = request.form['description']
+        t_price = request.form['price']
+        t_data = request.form['data']
+        t_voice = request.form['voice']
+        t_sms = request.form['sms']
+
+        if (id == '') | (t_name == '') | (t_description == '') | (t_price == '') | (t_data == '') | (t_voice == '') | (t_sms == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM TARIFF"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                id = int(id)
+                tariff_found = False
+
+                for row in IDs:
+                    if id == row[0]:
+                        tariff_found = True
+
+                if tariff_found == True:
+                    cursor.execute("UPDATE TARIFF SET name = '%s', description = '%s', price = '%s', data = '%s', voice = '%s', sms = '%s' WHERE id = '%d'"%(t_name, t_description, t_price, t_data, t_voice, t_sms, id))
+                    connection.commit()
+                    info = "Tariff updated successfully."
+                else:
+                    info = "Tariff id cannot be found. Try again."
+
+    return render_template('tariff_update.html', info=info)
+
+@app.route('/tariff_delete', methods=['GET', 'POST'])
+def tariff_delete_page():
+    info = None
+    if request.method == 'POST':
+        ID = request.form['id']
+
+        if (ID == ''):
+            info = 'Please enter tariff id.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM TARIFF"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                ID = int(ID)
+                tariff_found = False
+
+                for row in IDs:
+                    if ID == row[0]:
+                        tariff_found = True
+
+                if tariff_found == True:
+                    cursor.execute("DELETE FROM TARIFF WHERE id = '%d'"%ID)
+                    connection.commit()
+                    info = "Tariff deleted successfully."
+                else:
+                    info = "Tariff id cannot be found. Try again."
+
+    return render_template('tariff_delete.html', info=info)
+
+
+@app.route('/balance_list', methods=['GET', 'POST'])
+def balance_list_page():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT * FROM BALANCE"""
+        cursor.execute(query)
+        balances = cursor.fetchall()
+
+    return render_template('balance_list.html', balances=balances)
+
+@app.route('/balance_add', methods=['GET', 'POST'])
+def balance_add_page():
+    info = None
+    if request.method == 'POST':
+        b_data = request.form['data']
+        b_voice = request.form['voice']
+        b_sms = request.form['sms']
+        m_id = request.form['m_id']
+        c_id = request.form['c_id']
+
+        if (b_data == '') | (b_voice == '') | (b_sms == '') | (m_id == '') | (c_id == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM MSISDN"""
+                cursor.execute(query)
+                m_IDs = cursor.fetchall()
+
+                query = """SELECT id FROM CONTRACT"""
+                cursor.execute(query)
+                c_IDs = cursor.fetchall()
+
+                m_id = int(m_id)
+                msisdn_found = False
+
+                c_id = int(c_id)
+                contract_found = False
+
+                for row in m_IDs:
+                    if m_id == row[0]:
+                        msisdn_found = True
+
+                for row in c_IDs:
+                    if c_id == row[0]:
+                        contract_found = True
+
+                if msisdn_found == True & contract_found == True:
+                    cursor.execute("INSERT INTO BALANCE(remaining_data, remaining_voice, remaining_sms, msisdn_id, contract_id) VALUES ('%s', '%s', '%s', '%d', '%d')"%(b_data, b_voice, b_sms, m_id, c_id))
+                    connection.commit()
+                    info = "Balance added successfully."
+                else:
+                    info = "Msisdn or contract id cannot be found. Try again."
+
+    return render_template('balance_add.html', info=info)
+
+@app.route('/balance_update', methods=['GET', 'POST'])
+def balance_update_page():
+    info = None
+    if request.method == 'POST':
+        id = request.form['id']
+        b_data = request.form['data']
+        b_voice = request.form['voice']
+        b_sms = request.form['sms']
+        m_id = request.form['m_id']
+        c_id = request.form['c_id']
+
+        if (id == '') | (b_data == '') | (b_voice == '') | (b_sms == '') | (m_id == '') | (c_id == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM BALANCE"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                id = int(id)
+                balance_found = False
+
+                for row in IDs:
+                    if id == row[0]:
+                        balance_found = True
+
+                if balance_found == True:
+                    cursor.execute("UPDATE BALANCE SET remaining_data = '%s', remaining_voice = '%s', remaining_sms = '%s', msisdn_id = '%s', contract_id = '%s' WHERE id = '%d'"%(b_data, b_voice, b_sms, m_id, c_id, id))
+                    connection.commit()
+                    info = "Balance updated successfully."
+                else:
+                    info = "Balance id cannot be found. Try again."
+
+    return render_template('balance_update.html', info=info)
+
+@app.route('/balance_delete', methods=['GET', 'POST'])
+def balance_delete_page():
+    info = None
+    if request.method == 'POST':
+        ID = request.form['id']
+
+        if (ID == ''):
+            info = 'Please enter balance id.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM BALANCE"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                ID = int(ID)
+                balance_found = False
+
+                for row in IDs:
+                    if ID == row[0]:
+                        balance_found = True
+
+                if balance_found == True:
+                    cursor.execute("DELETE FROM BALANCE WHERE id = '%d'"%ID)
+                    connection.commit()
+                    info = "Balance deleted successfully."
+                else:
+                    info = "Balance id cannot be found. Try again."
+
+    return render_template('balance_delete.html', info=info)
+
+
+
 
 @app.route('/sign_in', methods=['GET', 'POST'])
 def sign_in_page():

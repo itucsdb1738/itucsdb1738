@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>List Wallet</title>
+    <title>List Balance</title>
     
 	<!-- BOOTSTRAP STYLES-->
     <link href="{{ url_for('static', filename='assets/css/bootstrap.css') }}" rel="stylesheet" />
@@ -26,7 +26,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand"><i class="fa fa-square-o "></i>&nbsp;Wallet List</a>
+                    <a class="navbar-brand"><i class="fa fa-square-o "></i>&nbsp;Balance List</a>
                 </div>
             </div>
         </div>
@@ -196,27 +196,33 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                     <h2>Wallet List</h2>   
+                     <h2>Balance List</h2>   
                     </div>
                 </div>              
                  <!-- /. ROW  -->
                   <hr />
 	              <table class="table">
-	              {% if wallets %}
+	              {% if balances %}
 	              		<thead>
 							<tr>
 								<th>id</th>
-								<th>Amount</th>
-								<th>Customer id</th>
+								<th>Remaining Data</th>
+								<th>Remaining Voice</th>
+								<th>Remaining Sms</th>
+								<th>Msisdn Id</th>
+								<th>Contract Id</th>								
 							</tr>
 						</thead>
-		              {% for wallet in wallets %}						
+		              {% for balance in balances %}						
 						<tbody>
 							<tr>
 						
-						    <td class="success">{{ wallet[0]}}</td>
-						    <td class="info">{{ wallet[1]}}</td>
-						    <td class="warning">{{ wallet[2]}}</td>	
+						    <td class="success">{{ balance[0]}}</td>
+						    <td class="info">{{ balance[1]}}</td>
+						    <td class="warning">{{ balance[2]}}</td>	
+						    <td class="success">{{ balance[3]}}</td>
+						    <td class="info">{{ balance[4]}}</td>
+						    <td class="warning">{{ balance[5]}}</td>						 	
 						    
 						  </tr>
 					  	</tbody>

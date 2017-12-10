@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>List Wallet</title>
+    <title>Update Balance</title>
     
 	<!-- BOOTSTRAP STYLES-->
     <link href="{{ url_for('static', filename='assets/css/bootstrap.css') }}" rel="stylesheet" />
@@ -26,7 +26,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand"><i class="fa fa-square-o "></i>&nbsp;Wallet List</a>
+                    <a class="navbar-brand"><i class="fa fa-square-o "></i>&nbsp;Update Balance</a>
                 </div>
             </div>
         </div>
@@ -88,7 +88,7 @@
                                 <a class="nav-link external" href="{{ url_for('address_add_page') }}">Add</a>
                             </li>
                             <li>
-                                 <a class="nav-link external" href="{{ url_for('address_update_page') }}">Update</a>
+                                <a class="nav-link external" href="{{ url_for('address_update_page') }}">Update</a>
                             </li>
                             <li>
                                 <a class="nav-link external" href="{{ url_for('address_delete_page') }}">Delete</a>
@@ -117,7 +117,7 @@
                     <li>
                         <a href="#"><i class="fa fa-edit "></i>Tariff<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li>
+                           <li>
                                 <a class="nav-link external" href="{{ url_for('tariff_list_page') }}">List</a>
                             </li>
                             <li>
@@ -196,33 +196,31 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                     <h2>Wallet List</h2>   
+                     <h2>Update Balance</h2>   
                     </div>
                 </div>              
                  <!-- /. ROW  -->
                   <hr />
-	              <table class="table">
-	              {% if wallets %}
-	              		<thead>
-							<tr>
-								<th>id</th>
-								<th>Amount</th>
-								<th>Customer id</th>
-							</tr>
-						</thead>
-		              {% for wallet in wallets %}						
-						<tbody>
-							<tr>
-						
-						    <td class="success">{{ wallet[0]}}</td>
-						    <td class="info">{{ wallet[1]}}</td>
-						    <td class="warning">{{ wallet[2]}}</td>	
-						    
-						  </tr>
-					  	</tbody>
-					{% endfor %}
-				{% endif %}
-				</table>
+                  
+	              	<div class="col-md-4">
+                        <div class="form-group">
+                           <form class="customer-add-form" method="post">
+                           	  <h4>Balance ID</h4>
+                           	  <input class="form-control" type="text" placeholder="id" name="id"  value="{{ request.form.id }}"/><br><br>
+                           	  <h4>Enter new information</h4>    					      
+						      <input class="form-control" type="text" placeholder="Remaining Data" name="data"  value="{{ request.form.data }}"/><br>
+						      <input class="form-control" type="text" placeholder="Remaining Voice" name="voice"  value="{{ request.form.voice }}"/><br>
+						      <input class="form-control" type="text" placeholder="Remaining Sms" name="sms"  value="{{ request.form.sms }}"/><br>
+						      <input class="form-control" type="text" placeholder="Msisdn id" name="m_id"  value="{{ request.form.m_id }}"/><br>
+						      <input class="form-control" type="text" placeholder="Contract id" name="c_id"  value="{{ request.form.c_id }}"/><br>
+						      <button class="btn btn-success btn-lg btn-block">Update Balance</button><br>
+						      {% if info %}
+			         			 <p class="error" align="center"><strong> {{ info }} </strong> 
+			        		  {% endif %}						      
+						   </form>                            
+                        </div>
+                    </div>
+                    
                  <!-- /. ROW  -->           
    			 </div>
              <!-- /. PAGE INNER  -->
