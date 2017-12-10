@@ -741,6 +741,142 @@ def balance_delete_page():
     return render_template('balance_delete.html', info=info)
 
 
+@app.route('/msisdn_list', methods=['GET', 'POST'])
+def msisdn_list_page():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT * FROM MSISDN"""
+        cursor.execute(query)
+        msisdns = cursor.fetchall()
+
+    return render_template('msisdn_list.html', msisdns=msisdns)
+
+@app.route('/msisdn_add', methods=['GET', 'POST'])
+def msisdn_add_page():
+    info = None
+    if request.method == 'POST':
+        m_number = request.form['msisdn_number']
+        m_password = request.form['password']
+        m_activation_date = request.form['activation_date']
+        c_id = request.form['contract_id']
+        b_id = request.form['balance_id']
+        t_id = request.form['tariff_id']
+
+        if (m_number == '') | (m_password == '') | (m_activation_date == '') | (c_id == '') | (b_id == '') | (t_id == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM CONTRACT"""
+                cursor.execute(query)
+                c_IDs = cursor.fetchall()
+
+                query = """SELECT id FROM BALANCE"""
+                cursor.execute(query)
+                b_IDs = cursor.fetchall()
+
+                query = """SELECT id FROM TARIFF"""
+                cursor.execute(query)
+                t_IDs = cursor.fetchall()
+
+                c_id = int(c_id)
+                contract_found = False
+
+                b_id = int(b_id)
+                balance_found = False
+
+                t_id = int(t_id)
+                tariff_found = False
+
+                for row in c_IDs:
+                    if c_id == row[0]:
+                        contract_found = True
+
+                for row in b_IDs:
+                    if b_id == row[0]:
+                        balance_found = True
+
+                for row in t_IDs:
+                    if t_id == row[0]:
+                        tariff_found = True
+
+                if (balance_found == True) & (contract_found == True) & (tariff_found == True):
+                    cursor.execute("INSERT INTO MSISDN(msisdn_number, password, activation_date, contract_id, balance_id, tariff_id) VALUES ('%s', '%s', '%s', '%d', '%d', '%d')"%(m_number, m_password, m_activation_date, c_id, b_id, t_id))
+                    connection.commit()
+                    info = "Msisdn added successfully."
+                else:
+                    info = "Contract, Balance or Tariff id cannot be found. Try again."
+
+    return render_template('msisdn_add.html', info=info)
+
+@app.route('/msisdn_update', methods=['GET', 'POST'])
+def msisdn_update_page():
+    info = None
+    if request.method == 'POST':
+        id = request.form['id']
+        m_number = request.form['msisdn_number']
+        m_password = request.form['password']
+        m_activation_date = request.form['activation_date']
+        c_id = request.form['contract_id']
+        b_id = request.form['balance_id']
+        t_id = request.form['tariff_id']
+
+        if (m_number == '') | (m_password == '') | (m_activation_date == '') | (c_id == '') | (b_id == '') | (t_id == '') | (id == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM MSISDN"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                id = int(id)
+                msisdn_found = False
+
+                for row in IDs:
+                    if id == row[0]:
+                        msisdn_found = True
+
+                if msisdn_found == True:
+                    cursor.execute("UPDATE MSISDN SET msisdn_number = '%s', password = '%s', activation_date = '%s', contract_id = '%s', balance_id = '%s', tariff_id = '%s' WHERE id = '%d'"%(m_number, m_password, m_activation_date, c_id, b_id, t_id, id))
+                    connection.commit()
+                    info = "Msisdn updated successfully."
+                else:
+                    info = "Msisdn id cannot be found. Try again."
+
+    return render_template('msisdn_update.html', info=info)
+
+@app.route('/msisdn_delete', methods=['GET', 'POST'])
+def msisdn_delete_page():
+    info = None
+    if request.method == 'POST':
+        ID = request.form['id']
+
+        if (ID == ''):
+            info = 'Please enter msisdn id.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM MSISDN"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                ID = int(ID)
+                msisdn_found = False
+
+                for row in IDs:
+                    if ID == row[0]:
+                        msisdn_found = True
+
+                if msisdn_found == True:
+                    cursor.execute("DELETE FROM MSISDN WHERE id = '%d'"%ID)
+                    connection.commit()
+                    info = "Msisdn deleted successfully."
+                else:
+                    info = "Msisdn id cannot be found. Try again."
+
+    return render_template('msisdn_delete.html', info=info)
+
 
 
 @app.route('/sign_in', methods=['GET', 'POST'])

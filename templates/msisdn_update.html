@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Update Address</title>
+    <title>Update Msisdn</title>
     
 	<!-- BOOTSTRAP STYLES-->
     <link href="{{ url_for('static', filename='assets/css/bootstrap.css') }}" rel="stylesheet" />
@@ -26,7 +26,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand"><i class="fa fa-square-o "></i>&nbsp;Update Address</a>
+                    <a class="navbar-brand"><i class="fa fa-square-o "></i>&nbsp;Update Msisdn</a>
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@
                     <li>
                         <a href="#"><i class="fa fa-edit "></i>Tariff<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li>
+                           <li>
                                 <a class="nav-link external" href="{{ url_for('tariff_list_page') }}">List</a>
                             </li>
                             <li>
@@ -196,7 +196,7 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                     <h2>Update Address</h2>   
+                     <h2>Update Msisdn</h2>   
                     </div>
                 </div>              
                  <!-- /. ROW  -->
@@ -205,13 +205,16 @@
 	              	<div class="col-md-4">
                         <div class="form-group">
                            <form class="customer-add-form" method="post">
-                           	  <h4>Address ID</h4>
+                           	  <h4>Msisdn ID</h4>
                            	  <input class="form-control" type="text" placeholder="id" name="id"  value="{{ request.form.id }}"/><br><br>
-                           	  <h4>Enter new information</h4>    
-						      <input class="form-control" type="text" placeholder="Name" name="name"  value="{{ request.form.name }}"/><br>						      
-						      <input class="form-control" type="text" placeholder="Description" name="description"  value="{{ request.form.description }}"/><br>
-						      <input class="form-control" type="text" placeholder="Contract id" name="c_id"  value="{{ request.form.c_id }}"/><br>
-						      <button class="btn btn-success btn-lg btn-block">Update Address</button><br>
+                           	  <h4>Enter new information</h4>    					      
+						      <input class="form-control" type="text" placeholder="Msisdn Number" name="msisdn_number"  value="{{ request.form.msisdn_number }}"/><br>
+						      <input class="form-control" type="password" placeholder="Password" name="password"  value="{{ request.form.password }}"/><br>
+						      <input class="form-control" type="date" placeholder="Activation Date" name="activation_date"  value="{{ request.form.activation_date }}"/><br>
+						      <input class="form-control" type="text" placeholder="Contract Id" name="contract_id"  value="{{ request.form.contract_id }}"/><br>
+						      <input class="form-control" type="text" placeholder="Balance Id" name="balance_id"  value="{{ request.form.balance_id }}"/><br>						   
+						      <input class="form-control" type="text" placeholder="Tariff Id" name="tariff_id"  value="{{ request.form.tariff_id }}"/><br>
+						      <button class="btn btn-success btn-lg btn-block">Update Msisdn</button><br>
 						      {% if info %}
 			         			 <p class="error" align="center"><strong> {{ info }} </strong> 
 			        		  {% endif %}						      
