@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Delete Customer</title>
+    <title>Update Address</title>
     
 	<!-- BOOTSTRAP STYLES-->
     <link href="{{ url_for('static', filename='assets/css/bootstrap.css') }}" rel="stylesheet" />
@@ -26,7 +26,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand"><i class="fa fa-square-o "></i>&nbsp;Delete Customer</a>
+                    <a class="navbar-brand"><i class="fa fa-square-o "></i>&nbsp;Update Address</a>
                 </div>
             </div>
         </div>
@@ -196,7 +196,7 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                     <h2>Delete Customer</h2>   
+                     <h2>Update Address</h2>   
                     </div>
                 </div>              
                  <!-- /. ROW  -->
@@ -205,9 +205,13 @@
 	              	<div class="col-md-4">
                         <div class="form-group">
                            <form class="customer-add-form" method="post">
-                           	  <h4>Customer ID</h4>
-                           	  <input class="form-control" type="text" placeholder="id" name="id"  value="{{ request.form.id }}"/><br>    
-						      <button class="btn btn-success btn-lg btn-block">Delete Customer</button><br>
+                           	  <h4>Address ID</h4>
+                           	  <input class="form-control" type="text" placeholder="id" name="id"  value="{{ request.form.id }}"/><br><br>
+                           	  <h4>Enter new information</h4>    
+						      <input class="form-control" type="text" placeholder="Name" name="name"  value="{{ request.form.name }}"/><br>						      
+						      <input class="form-control" type="text" placeholder="Description" name="description"  value="{{ request.form.description }}"/><br>
+						      <input class="form-control" type="text" placeholder="Contract id" name="c_id"  value="{{ request.form.c_id }}"/><br>
+						      <button class="btn btn-success btn-lg btn-block">Update Address</button><br>
 						      {% if info %}
 			         			 <p class="error" align="center"><strong> {{ info }} </strong> 
 			        		  {% endif %}						      

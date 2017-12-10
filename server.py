@@ -81,6 +81,7 @@ def admin_page():
     return render_template('admin.html')
 
 
+
 @app.route('/customer_list', methods=['GET', 'POST'])
 def customer_list_page():
     with dbapi2.connect(app.config['dsn']) as connection:
@@ -190,7 +191,6 @@ def customer_delete_page():
     return render_template('customer_delete.html', info=info)
 
 
-
 @app.route('/contract_list', methods=['GET', 'POST'])
 def contract_list_page():
     with dbapi2.connect(app.config['dsn']) as connection:
@@ -298,6 +298,115 @@ def contract_delete_page():
                     info = "Contract id cannot be found. Try again."
 
     return render_template('contract_delete.html', info=info)
+
+
+@app.route('/address_list', methods=['GET', 'POST'])
+def address_list_page():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT * FROM ADDRESS"""
+        cursor.execute(query)
+        addresses = cursor.fetchall()
+
+    return render_template('address_list.html', addresses=addresses)
+
+@app.route('/address_add', methods=['GET', 'POST'])
+def address_add_page():
+    info = None
+    if request.method == 'POST':
+        a_name = request.form['name']
+        a_description = request.form['description']
+        c_id = request.form['c_id']
+
+        if (a_name == '') | (a_description == '') | (c_id == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM CONTRACT"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                c_id = int(c_id)
+                contract_found = False
+
+                for row in IDs:
+                    if c_id == row[0]:
+                        contract_found = True
+
+                if contract_found == True:
+                    cursor.execute("INSERT INTO ADDRESS(name, description, contract_id) VALUES ('%s', '%s', '%d')"%(a_name, a_description, c_id))
+                    connection.commit()
+                    info = "Address added successfully."
+                else:
+                    info = "Contract id cannot be found. Try again."
+
+    return render_template('address_add.html', info=info)
+
+@app.route('/address_update', methods=['GET', 'POST'])
+def address_update_page():
+    info = None
+    if request.method == 'POST':
+        id = request.form['id']
+        a_name = request.form['name']
+        a_description = request.form['description']
+        c_id = request.form['c_id']
+
+        if (id == '') | (a_name == '') | (a_description == '') | (c_id == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM ADDRESS"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                id = int(id)
+                address_found = False
+
+                for row in IDs:
+                    if id == row[0]:
+                        address_found = True
+
+                if address_found == True:
+                    cursor.execute("UPDATE ADDRESS SET name = '%s', description = '%s',  contract_id = '%s' WHERE id = '%d'"%(a_name, a_description, c_id, id))
+                    connection.commit()
+                    info = "Address updated successfully."
+                else:
+                    info = "Address id cannot be found. Try again."
+
+    return render_template('address_update.html', info=info)
+
+@app.route('/address_delete', methods=['GET', 'POST'])
+def address_delete_page():
+    info = None
+    if request.method == 'POST':
+        ID = request.form['id']
+
+        if (ID == ''):
+            info = 'Please enter address id.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM ADDRESS"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                ID = int(ID)
+                address_found = False
+
+                for row in IDs:
+                    if ID == row[0]:
+                        address_found = True
+
+                if address_found == True:
+                    cursor.execute("DELETE FROM ADDRESS WHERE id = '%d'"%ID)
+                    connection.commit()
+                    info = "Address deleted successfully."
+                else:
+                    info = "Address id cannot be found. Try again."
+
+    return render_template('address_delete.html', info=info)
 
 
 
