@@ -409,6 +409,113 @@ def address_delete_page():
     return render_template('address_delete.html', info=info)
 
 
+@app.route('/wallet_list', methods=['GET', 'POST'])
+def wallet_list_page():
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT * FROM WALLET"""
+        cursor.execute(query)
+        wallets = cursor.fetchall()
+
+    return render_template('wallet_list.html', wallets=wallets)
+
+@app.route('/wallet_add', methods=['GET', 'POST'])
+def wallet_add_page():
+    info = None
+    if request.method == 'POST':
+        amount = request.form['amount']
+        c_id = request.form['c_id']
+
+        if (amount == '') | (c_id == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM CUSTOMER"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                c_id = int(c_id)
+                customer_found = False
+
+                for row in IDs:
+                    if c_id == row[0]:
+                        customer_found = True
+
+                if customer_found == True:
+                    cursor.execute("INSERT INTO WALLET(amount, customer_id) VALUES ('%s', '%d')"%(amount, c_id))
+                    connection.commit()
+                    info = "Wallet added successfully."
+                else:
+                    info = "Wallet id cannot be found. Try again."
+
+    return render_template('wallet_add.html', info=info)
+
+@app.route('/wallet_update', methods=['GET', 'POST'])
+def wallet_update_page():
+    info = None
+    if request.method == 'POST':
+        id = request.form['id']
+        amount = request.form['amount']
+        c_id = request.form['c_id']
+
+        if (id == '') | (amount == '') | (c_id == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM WALLET"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                id = int(id)
+                wallet_found = False
+
+                for row in IDs:
+                    if id == row[0]:
+                        wallet_found = True
+
+                if wallet_found == True:
+                    cursor.execute("UPDATE WALLET SET amount = '%s', customer_id = '%s' WHERE id = '%d'"%(amount, c_id, id))
+                    connection.commit()
+                    info = "Wallet updated successfully."
+                else:
+                    info = "Wallet id cannot be found. Try again."
+
+    return render_template('wallet_update.html', info=info)
+
+@app.route('/wallet_delete', methods=['GET', 'POST'])
+def wallet_delete_page():
+    info = None
+    if request.method == 'POST':
+        ID = request.form['id']
+
+        if (ID == ''):
+            info = 'Please enter wallet id.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM WALLET"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                ID = int(ID)
+                wallet_found = False
+
+                for row in IDs:
+                    if ID == row[0]:
+                        wallet_found = True
+
+                if wallet_found == True:
+                    cursor.execute("DELETE FROM WALLET WHERE id = '%d'"%ID)
+                    connection.commit()
+                    info = "Wallet deleted successfully."
+                else:
+                    info = "Wallet id cannot be found. Try again."
+
+    return render_template('wallet_delete.html', info=info)
+
+
 
 @app.route('/sign_in', methods=['GET', 'POST'])
 def sign_in_page():

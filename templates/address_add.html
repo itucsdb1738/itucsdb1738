@@ -101,16 +101,16 @@
                         <a href="#"><i class="fa fa-edit "></i>Wallet<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#">List</a>
+                                <a class="nav-link external" href="{{ url_for('wallet_list_page') }}">List</a>
                             </li>
                             <li>
-                                <a href="#">Add</a>
+                               <a class="nav-link external" href="{{ url_for('wallet_add_page') }}">Add</a>
                             </li>
                             <li>
-                                <a href="#">Update</a>
+                                <a class="nav-link external" href="{{ url_for('wallet_update_page') }}">Update</a>
                             </li>
                             <li>
-                                <a href="#">Delete</a>
+                                <a class="nav-link external" href="{{ url_for('wallet_delete_page') }}">Delete</a>
                             </li>
                         </ul>
                     </li>
