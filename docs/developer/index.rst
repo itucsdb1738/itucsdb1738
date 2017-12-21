@@ -10,7 +10,7 @@ This is the database design of CS-CELL.
      :scale: 50 %
      :alt: ER-Diagram
 
-     This is the ER-Diagram of database for the CS-CELL
+     This is the ER-Diagram of database for the CS-CELL. Blue columns means that they are primary keys, red columns are foreign keys.
 
 Below you can see all the entities.
 
