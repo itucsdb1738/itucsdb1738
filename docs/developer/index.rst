@@ -6,8 +6,8 @@ Database Design
 
 This is the database design of CS-CELL.
 
-.. figure:: images/er_diagram.PNG
-     :scale: 25 %
+.. figure:: images/er_diagram.png
+     :scale: 10 %
      :alt: ER-Diagram
 
      This is the ER-Diagram of database for the CS-CELL
