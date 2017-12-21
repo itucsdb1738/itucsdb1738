@@ -7,8 +7,8 @@ Index
 This is the homepage. Whenever any user visits CS-CELL website, they will see this page. In this page, users can see different tariffs, and different campaigns.
 Also, there are additional information about CS-CELL GSM operator.
 
-.. figure:: images/homepage.png
-     :scale: 100 %
+.. figure:: images/homepage.PNG
+     :scale: 50 %
      :alt: Home page
 
      This is the homepage of CS-CELL
@@ -18,8 +18,8 @@ Login
 Users need to enter their phone number and password to login CS-CELL. After successfully login process, they can see their personal informations.
 If the entered phone number and password are invalid, then they will be informed. If users forgot their password, then they can use remember page to find their password.
 
-.. figure:: images/login.png
-     :scale: 100 %
+.. figure:: images/login.PNG
+     :scale: 50 %
      :alt: login page
 
      To see their informations, users need to login with this page.
@@ -31,8 +31,8 @@ If these informations are matched with database information, then the password t
 
 After learning the password, they can go to login page and login with that password.
 
-.. figure:: images/remember.png
-     :scale: 100 %
+.. figure:: images/remember.PNG
+     :scale: 50 %
      :alt: remember page
 
      Remember page where users can learn their password, if they forgot it.
@@ -45,8 +45,8 @@ voice, sms and data information. These informations are shown with pie chart so 
 
 After learning all the information, they can logout and close the website.
 
-.. figure:: images/user_page.png
-     :scale: 100 %
+.. figure:: images/user_page.PNG
+     :scale: 50 %
      :alt: user page
 
      Personal information, tariff, balance and campaign are shown to the user.

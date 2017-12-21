@@ -6,8 +6,8 @@ You will be informed about CS-CELL website.
 You can check developer guide for further information.
 
 
-   .. figure:: images/homepage.png
-      :scale: 100 %
+   .. figure:: images/homepage.PNG
+      :scale: 50 %
       :alt: CS-CELL Page
 
       Home page of the CS-CELL
