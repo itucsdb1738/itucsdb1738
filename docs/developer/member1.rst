@@ -75,7 +75,7 @@ As you can see, tariff and campaign informations are sent to index (home) page. 
 Finally, users can see CS-CELL tariffs and campaigns. If they try to click "buy" button without login, they will see the following warning message.
 
 .. figure:: images/warning.PNG
-     :scale: 50 %
+     :scale: 100 %
      :alt: warning
 
      Warning message when user try to buy campaign or tariff without login.
@@ -87,7 +87,7 @@ When user click login button in the home page, they will be directed to login pa
 After user enters information to textboxes and click sign in button, then this means post function is called for login page.
 
 .. figure:: images/login.PNG
-     :scale: 50 %
+     :scale: 100 %
      :alt: login
 
      Login page, user can login CS-CELL.
@@ -146,7 +146,7 @@ Remember
 When users forgot their password, then they can learn it from remember page. To reach this page, user need to click remember button in the login page.
 
 .. figure:: images/remember.PNG
-     :scale: 50 %
+     :scale: 100 %
      :alt: remember page
 
      Users can learn their password from this page.
@@ -504,7 +504,7 @@ Let's say a user connect to admin page. Then this user can list all the tables. 
 The admin page can be seen below:
 
 .. figure:: images/admin.PNG
-     :scale: 50 %
+     :scale: 100 %
      :alt: admin page
 
      Admin user has right CRUD operation on all tables.
@@ -513,7 +513,7 @@ There are nine different table that admin can control. However I will explain on
 admin can use dropdown menu. You can see the following image to see it:
 
 .. figure:: images/admin_2.PNG
-     :scale: 50 %
+     :scale: 100 %
      :alt: Customer Table
 
      Admin can list, add, delete and update data to Customer table.
@@ -566,7 +566,7 @@ To show the informations to the admin user, I used to following html code:
 The output of this page can be seen below:
 
 .. figure:: images/list.PNG
-     :scale: 50 %
+     :scale: 100 %
      :alt: List Customer Table
 
      Admin can list Customer table.
@@ -619,7 +619,7 @@ As you see at the end of the html code I'm showing the message to the admin user
 You can see the image of the page below:
 
 .. figure:: images/add.PNG
-     :scale: 50 %
+     :scale: 100 %
      :alt: Add a customer to Customer Table
 
      Admin can add a new customer to Customer table.
@@ -630,7 +630,7 @@ Update Customer
 Admin user can update a customer. To do this, admin need to select Update Customer link. After that, update customer page will be opened. The image of this page can be seen below:
 
 .. figure:: images/update.PNG
-     :scale: 50 %
+     :scale: 100 %
      :alt: Update a customer from Customer Table
 
      Admin can update any customer from Customer table.
@@ -702,7 +702,7 @@ Delete customer operation can be done by admin user. Admin needs to enter id tha
 admin can use list customer page, and then find the id of the customer. The image of this page can be seen below:
 
 .. figure:: images/delete.PNG
-     :scale: 50 %
+     :scale: 100 %
      :alt: Delete a customer from Customer Table
 
      Admin can delete any customer from Customer table.

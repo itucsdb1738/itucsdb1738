@@ -7,7 +7,7 @@ You can check developer guide for further information.
 
 
    .. figure:: images/homepage.PNG
-      :scale: 50 %
+      :scale: 100 %
       :alt: CS-CELL Page
 
       Home page of the CS-CELL
