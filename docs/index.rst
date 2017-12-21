@@ -1,17 +1,14 @@
-Welcome to itucsdb's documentation!
-===================================
+Welcome to itucsdb1738's documentation!
+=======================================
 
-:Team: Team Name
+:Team: CS-CELL
 
 :Members:
 
-   * Member 1
-   * Member 2
-   * Member 3
-   * Member 4
-   * Member 5
+   * Adem Yenice  150120803
 
-**project description goes here (a few paragraphs)**
+CS-CELL is the smallest GSM operator in Turkey. Users can see and change their tariff,
+balance information and some campaigns. We offers best GSM opportunities to our customers.
 
 Contents:
 

@@ -1,22 +1,17 @@
 User Guide
 ==========
 
-**explain how your application works from the user perspective, use
-screenshots whereever appropriate**
+In this section I will be explaining visual parts that I implemented in my project.
+You will be informed about CS-CELL website.
+You can check developer guide for further information.
 
-**to add a picture, use the following example**::
 
-   .. figure:: picture.png
-      :scale: 50 %
-      :alt: map to buried treasure
+   .. figure:: images/homepage.png
+      :scale: 100 %
+      :alt: CS-CELL Page
 
-      This is the caption of the figure (a simple paragraph).
+      Home page of the CS-CELL
 
 .. toctree::
 
    member1
-   member2
-   member3
-   member4
-   member5
-   
