@@ -485,3 +485,283 @@ You can check the following sql code:
 
 These block of code initialize the database and add some data to tables. Also there update processing at the end of the code.
 
+Admin Page
+----------
+
+In additon to customer, there is another user type that is admin user. Admin user can see all the entities. Admin user also list, add, delete and update all the
+data in the table. In order to login with admin user, I added a control mechanism in login page. If the entered phone number and password are matched with admin
+information, then user will be directed to admin page.
+
+.. code-block:: html
+
+   if phone_number == adminInfo[4][1] and password == adminInfo[4][2]:
+      is_admin = True
+
+   if is_admin == True:
+         return redirect(url_for('admin_page'))
+
+Let's say a user connect to admin page. Then this user can list all the tables. User can add some data to tables, update them and delete them.
+The admin page can be seen below:
+
+.. figure:: images/admin.PNG
+     :scale: 50 %
+     :alt: admin page
+
+     Admin user has right CRUD operation on all tables.
+
+There are nine different table that admin can control. However I will explain one of them which is customer table. If admin user want to list, or any other process for customer table,
+admin can use dropdown menu. You can see the following image to see it:
+
+.. figure:: images/admin_2.PNG
+     :scale: 50 %
+     :alt: Customer Table
+
+     Admin can list, add, delete and update data to Customer table.
+
+Now, I will explain these four process. Every table have these CRUD operation in admin page. I only explain for customer table.
+
+List Customer
+-------------
+
+To list the customer table, I used to following python code. Whenever an admin visit the customer list page, this query is requested.
+
+.. code-block:: python
+
+   with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT * FROM CUSTOMER"""
+        cursor.execute(query)
+        customers = cursor.fetchall()
+
+    return render_template('customer_list.html', customers=customers)
+
+I am taking all customer information from database and then send them to the related html page.
+To show the informations to the admin user, I used to following html code:
+
+.. code-block:: html
+
+   <table class="table">
+        {% if customers %}
+            <thead>
+            <tr>
+               <th>id</th>
+               <th>Name</th>
+               <th>Surname</th>
+               <th>Birth Date</th>
+            </tr>
+         </thead>
+           {% for customer in customers %}
+         <tbody>
+            <tr>
+             <td class="success">{{ customer[0]}}</td>
+             <td class="info">{{ customer[1]}}</td>
+             <td class="warning">{{ customer[2]}}</td>
+             <td class="danger">{{ customer[3]}}</td>
+           </tr>
+         </tbody>
+      {% endfor %}
+   {% endif %}
+   </table>
+
+The output of this page can be seen below:
+
+.. figure:: images/list.PNG
+     :scale: 50 %
+     :alt: List Customer Table
+
+     Admin can list Customer table.
+
+Add Customer
+------------
+
+Admin user can also add a new customer to customer table. In order to do that, admin needs to enter customer informations. If any of the textbox is empty,
+then admin user will be shown an error message. Otherwise, new customer will be added to customer table and admin user will be informed.
+
+.. code-block:: python
+
+    info = None
+    if request.method == 'POST':
+        Name = request.form['name']
+        Surname = request.form['surname']
+        Birth_date = request.form['birth_date']
+
+        if (Name == '') | (Surname == '') | (Birth_date == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                cursor.execute("INSERT INTO CUSTOMER(name, surname, birth_date) VALUES ('%s', '%s', '%s')"%(Name, Surname, Birth_date))
+                connection.commit()
+                info = "Customer added successfully."
+
+    return render_template('customer_add.html', info=info)
+
+This is the python code of adding new customer. First, I took entered informations from textboxes then I controlled them if they empty or not.
+After that, I added them to customer table and send the related message to customer add page. The html code of customer add page can be seen below:
+
+.. code-block:: html
+
+   <div class="col-md-4">
+         <div class="form-group">
+            <form class="customer-add-form" method="post">
+         <input class="form-control" type="text" placeholder="Name" name="name"  value="{{ request.form.name }}"/><br>
+         <input class="form-control" type="text" placeholder="Surname" name="surname"  value="{{ request.form.surname }}"/><br>
+         <input class="form-control" type="date" name="birth_date"  value="{{ request.form.birth_date }}"/><br>
+         <button class="btn btn-success btn-lg btn-block">Add Customer</button><br>
+         {% if info %}
+             <p class="error" align="center"><strong> {{ info }} </strong>
+        {% endif %}
+      </form>
+         </div>
+     </div>
+
+As you see at the end of the html code I'm showing the message to the admin user.
+You can see the image of the page below:
+
+.. figure:: images/add.PNG
+     :scale: 50 %
+     :alt: Add a customer to Customer Table
+
+     Admin can add a new customer to Customer table.
+
+Update Customer
+---------------
+
+Admin user can update a customer. To do this, admin need to select Update Customer link. After that, update customer page will be opened. The image of this page can be seen below:
+
+.. figure:: images/update.PNG
+     :scale: 50 %
+     :alt: Update a customer from Customer Table
+
+     Admin can update any customer from Customer table.
+
+As seen from image, admin first need to enter id of the customer. I took this id and check it if this id is exist in the customer table.
+If customer is found, then I took new values from textboxes that filled by admin user and update the customer informations. The python code of
+update process can be seen below:
+
+.. code-block:: python
+
+    info = None
+    if request.method == 'POST':
+        ID = request.form['id']
+        Name = request.form['name']
+        Surname = request.form['surname']
+        Birth_date = request.form['birth_date']
+
+        if (ID == '') | (Name == '') | (Surname == '') | (Birth_date == ''):
+            info = 'Please fill blank areas.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM CUSTOMER"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                ID = int(ID)
+                user_found = False
+
+                for row in IDs:
+                    if ID == row[0]:
+                        user_found = True
+
+                if user_found == True:
+                    cursor.execute("UPDATE CUSTOMER SET name = '%s', surname = '%s',  birth_date = '%s' WHERE id = '%d'"%(Name, Surname, Birth_date, ID))
+                    connection.commit()
+                    info = "Customer updated successfully."
+                else:
+                    info = "Customer id cannot be found. Try again."
+
+    return render_template('customer_update.html', info=info)
+
+Admin user cannot do update process if any of textbox is empty. If error is occured any of process, then admin user will be informed. Otherwise, update
+process will be done and admin user will be informed. Html code of this page can be seen below:
+
+.. code-block:: html
+
+   <div class="col-md-4">
+         <div class="form-group">
+            <form class="customer-add-form" method="post">
+                 <h4>Customer ID</h4>
+                 <input class="form-control" type="text" placeholder="id" name="id"  value="{{ request.form.id }}"/><br><br>
+                 <h4>Enter new information</h4>
+         <input class="form-control" type="text" placeholder="Name" name="name"  value="{{ request.form.name }}"/><br>
+         <input class="form-control" type="text" placeholder="Surname" name="surname"  value="{{ request.form.surname }}"/><br>
+         <input class="form-control" type="date" name="birth_date"  value="{{ request.form.birth_date }}"/><br>
+         <button class="btn btn-success btn-lg btn-block">Update Customer</button><br>
+         {% if info %}
+             <p class="error" align="center"><strong> {{ info }} </strong>
+        {% endif %}
+      </form>
+         </div>
+    </div>
+
+Delete Customer
+---------------
+
+Delete customer operation can be done by admin user. Admin needs to enter id that belongs to customer admin want to delete. To find id of customer,
+admin can use list customer page, and then find the id of the customer. The image of this page can be seen below:
+
+.. figure:: images/delete.PNG
+     :scale: 50 %
+     :alt: Delete a customer from Customer Table
+
+     Admin can delete any customer from Customer table.
+
+I first took the id from textbox and then control this id. If admin user send an empty value then admin will see an error message. Otherwise, I took id and search it in customer table. The python code that belongs to this operation can be seen below:
+
+.. code-block:: python
+
+    info = None
+    if request.method == 'POST':
+        ID = request.form['id']
+
+        if (ID == ''):
+            info = 'Please enter customer id.'
+        else:
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """SELECT id FROM CUSTOMER"""
+                cursor.execute(query)
+                IDs = cursor.fetchall()
+
+                ID = int(ID)
+                user_found = False
+
+                for row in IDs:
+                    if ID == row[0]:
+                        user_found = True
+
+                if user_found == True:
+                    cursor.execute("DELETE FROM CUSTOMER WHERE id = '%d'"%ID)
+                    connection.commit()
+                    info = "Customer deleted successfully."
+                else:
+                    info = "Customer id cannot be found. Try again."
+
+    return render_template('customer_delete.html', info=info)
+
+The HTML code of this page can be seen below:
+
+.. code-block:: html
+
+   <div class="col-md-4">
+      <div class="form-group">
+         <form class="customer-add-form" method="post">
+            <h4>Customer ID</h4>
+            <input class="form-control" type="text" placeholder="id" name="id"  value="{{ request.form.id }}"/><br><br>
+            <h4>Enter new information</h4>
+            <input class="form-control" type="text" placeholder="Name" name="name"  value="{{ request.form.name }}"/><br>
+            <input class="form-control" type="text" placeholder="Surname" name="surname"  value="{{ request.form.surname }}"/><br>
+            <input class="form-control" type="date" name="birth_date"  value="{{ request.form.birth_date }}"/><br>
+            <button class="btn btn-success btn-lg btn-block">Update Customer</button><br>
+            {% if info %}
+                <p class="error" align="center"><strong> {{ info }} </strong>
+           {% endif %}
+         </form>
+      </div>
+     </div>
+
+Further Information
+-------------------
+
+If you have any question or any unclear part you can contact with me. Thanks for reading.
